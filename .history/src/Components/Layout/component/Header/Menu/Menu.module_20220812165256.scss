@@ -1,0 +1,25 @@
+.menu-item {
+    align-items: center;
+    padding: 8px;
+    font-size: 1.8rem;
+    font-weight: 700;
+    border-radius: 4px;
+    color: var(--text-color);
+    transition: background-color ease-in-out 200ms;
+
+    &.active {
+        border-radius: 0;
+        border-bottom: 1px solid black;
+    }
+
+    &:hover {
+        background-color: rgba(22, 24, 35, 0.03);
+    }
+}
+
+.title {
+    margin-left: 10px;
+    color: black;
+    font-size: 1.8rem;
+    text-transform: uppercase;
+}

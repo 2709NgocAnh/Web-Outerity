@@ -1,0 +1,16 @@
+.header {
+    width: var(--default-layout-width);
+}
+.header-img {
+    width: var(--default-layout-width);
+}
+.header-btn {
+    position: absolute;
+    z-index: 3;
+}
+.product {
+    padding: 30px;
+}
+.product-item {
+    padding: 10px;
+}

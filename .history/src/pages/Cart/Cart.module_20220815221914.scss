@@ -1,0 +1,79 @@
+.cart {
+    position: relative;
+    border: 1px solid #ccc;
+}
+.no-product {
+    margin-top: 30px;
+    width: 100%;
+    height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    background-image: url('https://dtcfurniture.vn/images/empty_cart.png');
+    background-repeat: no-repeat;
+    background-size: 400px;
+    background-position: center;
+}
+.no-product h5 {
+    color: black;
+    margin-top: 220px;
+    margin-left: 150px;
+}
+.no-product-btn {
+    width: 200px;
+    height: 50px;
+    display: block;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    color: white;
+    text-decoration: none;
+}
+.no-product-btn button {
+    // display: block;
+    width: 100%;
+    color: white;
+    background-color: black;
+    border-radius: 20px;
+}
+.amount span {
+    color: crimson;
+    padding: 0 20px;
+}
+.amount .count {
+    width: 40px;
+    height: 30px;
+    border: 1px solid #555;
+    outline: none;
+    background: transparent;
+    cursor: pointer;
+}
+.delete {
+    position: absolute;
+    top: 700px;
+    right: 5px;
+    color: crimson;
+    cursor: pointer;
+    font-weight: 900;
+}
+.total {
+    width: 100%;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-bottom: 15px;
+}
+.total a {
+    text-decoration: none;
+    background: gray;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    padding: 10px 25px;
+    margin-right: 50px;
+}
+.total h3 {
+    margin-right: 50px;
+    color: crimson;
+}

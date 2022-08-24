@@ -1,0 +1,26 @@
+.heading-page h1 {
+    padding-left: 30px;
+    display: block;
+    font-size: 5rem;
+    margin-block-start: 0.67rem;
+    margin-block-end: 0.67rem;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    font-weight: bold;
+}
+.wrapbox-content-page {
+    padding-bottom: 30px;
+}
+.content-page {
+    padding-left: 30px;
+    padding-right: 30px;
+}
+.content-page p {
+    font-size: 1.6rem;
+}
+@media (min-width: 1200px) {
+    .container-fluid {
+        max-width: 1600px;
+        padding: 0 85px;
+    }
+}

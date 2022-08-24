@@ -1,0 +1,18 @@
+{
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "[javascript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "cSpell.words": [
+        "fontawesome",
+        "fortawesome",
+        "menulink",
+        "privacypolicy",
+        "returnpolicy",
+        "termsservice",
+        "tippyjs",
+        "uuidv",
+        "Xmark"
+    ]
+}

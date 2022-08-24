@@ -1,0 +1,35 @@
+.header {
+    display: flex;
+    justify-content: center;
+    width: var(--default-layout-width);
+}
+.header-img {
+    width: var(--default-layout-width);
+}
+.header-btn {
+    position: absolute;
+    z-index: 3;
+    width: 100px;
+    font-size: 2rem;
+    top: 50%;
+    transform: (-50%);
+    background-color: var(--black);
+    color: white;
+}
+.header-title {
+    font-size: 3.5 rem;
+    display: flex;
+    align-content: center;
+}
+.product {
+    padding: 30px;
+}
+.product-item {
+    padding: 10px;
+}
+.card-title {
+    font-size: 2rem;
+}
+.card-text {
+    font-size: 1.6rem;
+}

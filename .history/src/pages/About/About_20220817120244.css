@@ -1,0 +1,18 @@
+.heading-page h1 {
+    display: block;
+    font-size: 5rem;
+    margin-block-start: 0.67rem;
+    margin-block-end: 0.67rem;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    font-weight: bold;
+}
+.wrapbox-content-page {
+    padding-bottom: 30px;
+}
+.content-page {
+    padding-right: 30px;
+}
+.content-page p {
+    font-size: 1.6rem;
+}
