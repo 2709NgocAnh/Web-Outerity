@@ -32,7 +32,6 @@ function Footer() {
                                     </a>
                                     <div className={cx('footer-content-title')}>
                                         <ul>Chi Nhánh Hồ Chí Minh</ul>
-
                                         <li className={cx('footer-content-item')}>
                                             - Quận 10 - 561 Sư Vạn Hạnh, Phường 13.
                                         </li>
@@ -111,11 +110,7 @@ function Footer() {
                                         <a href="tel:0343803696">0343803696</a>
                                     </li>
                                     <li className={cx('contact-3')}>coming soon</li>
-                                    <li className={cx('contact-4')}>
-                                        <a href="mailto:phanthingocanh2001.ptna@gmail.com">
-                                            phanthingocanh2001.ptna@gmail.com
-                                        </a>
-                                    </li>
+                                    <li className={cx('contact-4')}>outerity.local@gmail.com</li>
                                 </ul>
                             </div>
                         </div>

@@ -13,8 +13,8 @@ function Footer() {
             <div className={cx('header')}>
                 <FontAwesomeIcon className={cx('header-icon')} icon={faPhone} />
                 <div className={cx('header-title')}>
-                    <span>Hỗ trợ/ Mua hàng:</span>
-                    <a href="tel:0343803696">0343803696</a>
+                    <span>Hỗ trợ/ Mua hàng</span>
+                    <a href="/">0343803696</a>
                 </div>
             </div>
             <div className={cx('container-fluid')}>
@@ -32,7 +32,6 @@ function Footer() {
                                     </a>
                                     <div className={cx('footer-content-title')}>
                                         <ul>Chi Nhánh Hồ Chí Minh</ul>
-
                                         <li className={cx('footer-content-item')}>
                                             - Quận 10 - 561 Sư Vạn Hạnh, Phường 13.
                                         </li>
@@ -107,15 +106,9 @@ function Footer() {
                             <div className={cx('footer-content footer-contact')}>
                                 <ul>
                                     <li className={cx('contact-1')}>TP.HCM</li>
-                                    <li className={cx('contact-2')}>
-                                        <a href="tel:0343803696">0343803696</a>
-                                    </li>
+                                    <li className={cx('contact-2')}>0343803696</li>
                                     <li className={cx('contact-3')}>coming soon</li>
-                                    <li className={cx('contact-4')}>
-                                        <a href="mailto:phanthingocanh2001.ptna@gmail.com">
-                                            phanthingocanh2001.ptna@gmail.com
-                                        </a>
-                                    </li>
+                                    <li className={cx('contact-4')}>outerity.local@gmail.com</li>
                                 </ul>
                             </div>
                         </div>

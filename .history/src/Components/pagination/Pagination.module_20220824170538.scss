@@ -1,0 +1,15 @@
+.container {
+    border: 1px solid black;
+    display: flex;
+    justify-content: flex-end;
+    padding: 20px;
+}
+.container a {
+    background-color: white;
+    padding: 5px;
+    color: black;
+}
+a .section:hover {
+    background-color: black;
+    color: white;
+}

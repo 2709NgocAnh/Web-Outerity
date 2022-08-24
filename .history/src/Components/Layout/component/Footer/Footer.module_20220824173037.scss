@@ -22,18 +22,9 @@
 }
 .header-title {
     display: flex;
-    align-items: center;
-}
-.header-title span {
     font-size: 1.8rem;
-    color: black;
-    padding-right: 10px;
 }
-.header-title a {
-    color: red !important;
-    font-size: 2.5rem;
-}
-.footer-title {
+.header-title .footer-title {
     font-size: 2rem;
 }
 .footer-content-title {

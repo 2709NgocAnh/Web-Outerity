@@ -1,15 +1,15 @@
 import classNames from 'classnames/bind';
-import styles from './Sale.module.scss';
+import styles from './Shop.module.scss';
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { NavLink } from 'react-router-dom';
 
 import { DataContext } from '~/pages/Cart/DataProvider';
-import Pagination from '~/Components/pagination/Pagination';
-
 import TabTitle from '~/Components/config/TabTitle';
-export default function Sale() {
-    TabTitle('Sale');
+import Pagination from "~/Components/pagination"
+export default function Shop() {
+    TabTitle('Shop');
+
     const value = useContext(DataContext);
     const [products] = value.products;
     const addCart = value.addCart;
@@ -18,9 +18,9 @@ export default function Sale() {
     return (
         <>
             <div className={cx('header')}>
-                <button className={cx('header-btn')}>SALE</button>
+                <button className={cx('header-btn')}>Shop</button>
             </div>
-            <div className={cx('header-title')}>SALES PRODUCT</div>
+            <div className={cx('header-title')}>BEST SELLER</div>
             <div>
                 <section className={cx('product')}>
                     <div className={cx('container')}>
@@ -53,8 +53,8 @@ export default function Sale() {
                                     </div>
                                 );
                             })}
-                            <Pagination />;
                         </div>
+                        <
                     </div>
                 </section>
             </div>
