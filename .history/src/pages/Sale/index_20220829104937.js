@@ -4,7 +4,6 @@ import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { NavLink } from 'react-router-dom';
 
-import config from '~/Components/config';
 import { DataContext } from '~/pages/Cart/DataProvider';
 import Pagination from '~/Components/pagination/Pagination';
 
@@ -12,7 +11,6 @@ import TabTitle from '~/Components/config/TabTitle';
 export default function Sale() {
     TabTitle('Sale');
     const value = useContext(DataContext);
-    const [collects] = value.collects;
     const [products] = value.products;
     const addCart = value.addCart;
     const cx = classNames.bind(styles);

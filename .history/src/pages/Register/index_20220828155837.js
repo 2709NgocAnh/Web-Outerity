@@ -81,7 +81,7 @@ const Register = () => {
                     <FormRegister
                         key={input.id}
                         {...input}
-                        values={values}
+                        // values={values}
                         value={values[input.name]}
                         onChange={onChange}
                     />

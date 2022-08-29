@@ -1,18 +1,16 @@
 import classNames from 'classnames/bind';
-import styles from './Sale.module.scss';
+import styles from './News.module.scss';
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { NavLink } from 'react-router-dom';
 
-import config from '~/Components/config';
 import { DataContext } from '~/pages/Cart/DataProvider';
 import Pagination from '~/Components/pagination/Pagination';
 
 import TabTitle from '~/Components/config/TabTitle';
-export default function Sale() {
-    TabTitle('Sale');
+export default function News() {
+    TabTitle('News');
     const value = useContext(DataContext);
-    const [collects] = value.collects;
     const [products] = value.products;
     const addCart = value.addCart;
     const cx = classNames.bind(styles);
@@ -20,9 +18,9 @@ export default function Sale() {
     return (
         <>
             <div className={cx('header')}>
-                <button className={cx('header-btn')}>SALE</button>
+                <button className={cx('header-btn')}>News</button>
             </div>
-            <div className={cx('header-title')}>SALES PRODUCT</div>
+            <div className={cx('header-title')}>NEWS PRODUCT</div>
             <div>
                 <section className={cx('product')}>
                     <div className={cx('container')}>

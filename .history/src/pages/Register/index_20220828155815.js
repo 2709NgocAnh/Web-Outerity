@@ -63,13 +63,14 @@ const Register = () => {
             icon: 'fa-solid fa-lock',
         },
     ];
-    const onChange = (e) => {
-        setValues({ ...values, [e.target.name]: e.target.value });
-    };
 
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log(values);
+    };
+
+    const onChange = (e) => {
+        setValues({ ...values, [e.target.name]: e.target.value });
     };
 
     return (
@@ -81,7 +82,7 @@ const Register = () => {
                     <FormRegister
                         key={input.id}
                         {...input}
-                        values={values}
+                        // values={values}
                         value={values[input.name]}
                         onChange={onChange}
                     />

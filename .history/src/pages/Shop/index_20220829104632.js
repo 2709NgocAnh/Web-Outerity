@@ -1,16 +1,15 @@
 import classNames from 'classnames/bind';
-import styles from './Sale.module.scss';
+import styles from './Shop.module.scss';
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { NavLink } from 'react-router-dom';
-
 import config from '~/Components/config';
 import { DataContext } from '~/pages/Cart/DataProvider';
-import Pagination from '~/Components/pagination/Pagination';
-
 import TabTitle from '~/Components/config/TabTitle';
-export default function Sale() {
-    TabTitle('Sale');
+import Pagination from '~/Components/pagination/Pagination';
+export default function Shop() {
+    TabTitle('Shop');
+
     const value = useContext(DataContext);
     const [collects] = value.collects;
     const [products] = value.products;
@@ -20,14 +19,14 @@ export default function Sale() {
     return (
         <>
             <div className={cx('header')}>
-                <button className={cx('header-btn')}>SALE</button>
+                <button className={cx('header-btn')}>Shop</button>
             </div>
-            <div className={cx('header-title')}>SALES PRODUCT</div>
+            <div className={cx('header-title')}>BEST SELLER</div>
             <div>
                 <section className={cx('product')}>
                     <div className={cx('container')}>
                         <div className={cx('row')}>
-                            <div class="col-xl-2 col-sm-12 col-xs-12">
+                            <div class="col-md-2 col-sm-12 col-xs-12">
                                 <div class="sidebar-page">
                                     <div class="group-menu">
                                         <div class="page_menu_title title_block">
@@ -61,7 +60,7 @@ export default function Sale() {
                                 </div>
                             </div>
                             {/* col-xl-3 col-lg-4 col-md-9 */}
-                            <div class="col-xl-10 col-sm-12 col-xs-12">
+                            <div class="col-md-10 col-sm-12 col-xs-12">
                                 <div className={cx('row')}>
                                     {products.map((product) => {
                                         return (

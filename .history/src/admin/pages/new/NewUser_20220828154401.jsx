@@ -19,6 +19,7 @@ const NewUser = () => {
         {
             id: 1,
             name: 'name',
+
             label: 'Username',
             type: 'text',
             placeholder: 'john_doe',
@@ -26,6 +27,7 @@ const NewUser = () => {
         {
             id: 3,
             name: 'email',
+
             label: 'Email',
             type: 'mail',
             placeholder: 'john_doe@gmail.com',
@@ -33,6 +35,7 @@ const NewUser = () => {
         {
             id: 4,
             name: 'phone',
+
             label: 'Phone',
             type: 'text',
             placeholder: '+1 234 567 89',
@@ -40,12 +43,14 @@ const NewUser = () => {
         {
             id: 5,
             name: 'password',
+
             label: 'Password',
             type: 'password',
         },
         {
             id: 6,
             name: 'address',
+
             label: 'Address',
             type: 'text',
             placeholder: 'Elton St. 216 NewYork',
@@ -97,6 +102,7 @@ const NewUser = () => {
                                         type={input.type}
                                         placeholder={input.placeholder}
                                         onChange={onChange}
+                                        values={values}
                                         value={values[input.name]}
                                     />
                                 </div>

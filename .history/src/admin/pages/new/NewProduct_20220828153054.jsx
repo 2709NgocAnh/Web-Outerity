@@ -2,68 +2,56 @@ import classNames from 'classnames/bind';
 import styles from './New.module.scss';
 import DriveFolderUploadOutlinedIcon from '@mui/icons-material/DriveFolderUploadOutlined';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
 
-const NewUser = () => {
+const NewProduct = () => {
     const cx = classNames.bind(styles);
     const [file, setFile] = useState('');
     const [values, setValues] = useState({
         name: '',
         email: '',
-        phone: '',
         password: '',
-        address: '',
+        password_confirm: '',
     });
-
-    const userInputs = [
+    const productInputs = [
         {
             id: 1,
-            name: 'name',
-            label: 'Username',
+            label: 'Title',
             type: 'text',
-            placeholder: 'john_doe',
+            placeholder: 'Apple Macbook Pro',
+        },
+        {
+            id: 2,
+            label: 'Description',
+            type: 'text',
+            placeholder: 'Description',
         },
         {
             id: 3,
-            name: 'email',
-            label: 'Email',
-            type: 'mail',
-            placeholder: 'john_doe@gmail.com',
+            label: 'Category',
+            type: 'text',
+            placeholder: 'Computers',
         },
         {
             id: 4,
-            name: 'phone',
-            label: 'Phone',
+            label: 'Price',
             type: 'text',
-            placeholder: '+1 234 567 89',
+            placeholder: '100',
         },
         {
             id: 5,
-            name: 'password',
-            label: 'Password',
-            type: 'password',
-        },
-        {
-            id: 6,
-            name: 'address',
-            label: 'Address',
+            label: 'Stock',
             type: 'text',
-            placeholder: 'Elton St. 216 NewYork',
+            placeholder: 'in stock',
         },
     ];
-    const onChange = (e) => {
-        setValues({ ...values, [e.target.name]: e.target.value });
-        console.warn(setValues);
-    };
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        console.log(values);
-    };
+     const onChange = (e) => {
+         setValues({ ...values, [e.target.name]: e.target.value });
+     };
     return (
         <div className={cx('new')}>
             <div className={cx('newContainer')}>
                 <div className={cx('top')}>
-                    <h1>Thêm thành viên</h1>
+                    <h1>Thêm Sản Phẩm</h1>
                 </div>
                 <div className={cx('bottom')}>
                     <div className={cx('left')}>
@@ -77,7 +65,7 @@ const NewUser = () => {
                         />
                     </div>
                     <div className={cx('right')}>
-                        <form onSubmit={handleSubmit}>
+                        <form>
                             <div className={cx('formInput')}>
                                 <label htmlFor="file">
                                     Image: <DriveFolderUploadOutlinedIcon className={cx('icon')} />
@@ -90,20 +78,13 @@ const NewUser = () => {
                                 />
                             </div>
 
-                            {userInputs.map((input) => (
+                            {productInputs.map((input) => (
                                 <div className={cx('formInput')} key={input.id}>
                                     <label>{input.label}</label>
-                                    <input
-                                        type={input.type}
-                                        placeholder={input.placeholder}
-                                        onChange={onChange}
-                                        value={values[input.name]}
-                                    />
+                                    <input type={input.type} placeholder={input.placeholder} onChange = setValues={e.target.value} />
                                 </div>
                             ))}
-                            <Link to="/users" className={cx('link')}>
-                                <button>Send</button>
-                            </Link>
+                            <button>Send</button>
                         </form>
                     </div>
                 </div>
@@ -112,4 +93,4 @@ const NewUser = () => {
     );
 };
 
-export default NewUser;
+export default NewProduct;

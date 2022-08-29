@@ -97,6 +97,7 @@ const NewUser = () => {
                                         type={input.type}
                                         placeholder={input.placeholder}
                                         onChange={onChange}
+                                        values={values}
                                         value={values[input.name]}
                                     />
                                 </div>

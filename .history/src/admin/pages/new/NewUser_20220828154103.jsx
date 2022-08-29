@@ -19,6 +19,7 @@ const NewUser = () => {
         {
             id: 1,
             name: 'name',
+
             label: 'Username',
             type: 'text',
             placeholder: 'john_doe',
@@ -26,6 +27,7 @@ const NewUser = () => {
         {
             id: 3,
             name: 'email',
+
             label: 'Email',
             type: 'mail',
             placeholder: 'john_doe@gmail.com',
@@ -33,6 +35,7 @@ const NewUser = () => {
         {
             id: 4,
             name: 'phone',
+
             label: 'Phone',
             type: 'text',
             placeholder: '+1 234 567 89',
@@ -40,12 +43,14 @@ const NewUser = () => {
         {
             id: 5,
             name: 'password',
+
             label: 'Password',
             type: 'password',
         },
         {
             id: 6,
             name: 'address',
+
             label: 'Address',
             type: 'text',
             placeholder: 'Elton St. 216 NewYork',
@@ -54,10 +59,6 @@ const NewUser = () => {
     const onChange = (e) => {
         setValues({ ...values, [e.target.name]: e.target.value });
         console.warn(setValues);
-    };
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        console.log(values);
     };
     return (
         <div className={cx('new')}>
@@ -77,7 +78,7 @@ const NewUser = () => {
                         />
                     </div>
                     <div className={cx('right')}>
-                        <form onSubmit={handleSubmit}>
+                        <form>
                             <div className={cx('formInput')}>
                                 <label htmlFor="file">
                                     Image: <DriveFolderUploadOutlinedIcon className={cx('icon')} />
@@ -97,6 +98,7 @@ const NewUser = () => {
                                         type={input.type}
                                         placeholder={input.placeholder}
                                         onChange={onChange}
+                                        values={values}
                                         value={values[input.name]}
                                     />
                                 </div>
