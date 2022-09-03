@@ -1,7 +1,12 @@
 .table {
+    padding: 10px;
+    .tableCell {
+        font-size: 1.4rem;
+    }
     .cellWrapper {
         display: flex;
         align-items: center;
+        // font-size: 1.4rem;
 
         .image {
             width: 32px;
@@ -11,7 +16,10 @@
             object-fit: cover;
         }
     }
-
+    td:last-child,
+    th:last-child {
+        text-align: left !important;
+    }
     .status {
         padding: 5px;
         border-radius: 5px;

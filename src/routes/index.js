@@ -27,8 +27,10 @@ import Users from '~/admin/pages/Users/Users';
 import Product from '~/admin/pages/product/Product';
 import NewUser from '~/admin/pages/new/NewUser';
 import NewProduct from '~/admin/pages/new/NewProduct';
+import EditUser from '~/admin/pages/Edit/EditUser';
+import SingleUser from '~/admin/pages/single/SingleUser';
+import SingleProduct from '~/admin/pages/single/SingleProduct';
 
-import Single from '~/admin/Component/single/Single';
 import Order from '~/admin/pages/order/Order';
 import Category from '~/admin/pages/Category/Category';
 import Profile from '~/admin/pages/profile/Profile';
@@ -61,12 +63,15 @@ const publicRoutes = [
     { path: config.routes.admin, component: Home, layout: DefaultLayoutAdmin },
     { path: config.routes.user, component: Users, layout: DefaultLayoutAdmin },
 
-    { path: config.routes.single, component: Single, layout: DefaultLayoutAdmin },
     { path: config.routes.users, component: Users, layout: DefaultLayoutAdmin },
+    { path: config.routes.singleuser, component: SingleUser, layout: DefaultLayoutAdmin },
+    { path: config.routes.newuser, component: NewUser, layout: DefaultLayoutAdmin },
+    { path: config.routes.edituser, component: EditUser, layout: DefaultLayoutAdmin },
+
     { path: config.routes.product, component: Product, layout: DefaultLayoutAdmin },
+    { path: config.routes.singleproduct, component: SingleProduct, layout: DefaultLayoutAdmin },
     { path: config.routes.newproduct, component: NewProduct, layout: DefaultLayoutAdmin },
 
-    { path: config.routes.newuser, component: NewUser, layout: DefaultLayoutAdmin },
     { path: config.routes.order, component: Order, layout: DefaultLayoutAdmin },
     { path: config.routes.category, component: Category, layout: DefaultLayoutAdmin },
     { path: config.routes.profile, component: Profile, layout: DefaultLayoutAdmin },

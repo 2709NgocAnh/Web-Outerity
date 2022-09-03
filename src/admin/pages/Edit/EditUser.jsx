@@ -1,30 +1,38 @@
 import classNames from 'classnames/bind';
-import styles from './NewUser.module.scss';
+import styles from './EditUser.module.scss';
 import DriveFolderUploadOutlinedIcon from '@mui/icons-material/DriveFolderUploadOutlined';
-import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { userRows } from '~/admin/pages/Users/datatablesource';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-const NewUser = () => {
+const EditUser = () => {
     const cx = classNames.bind(styles);
-
     const [file, setFile] = useState('');
     const [type, setType] = useState();
     const [focused, setFocused] = useState(false);
+
+    const { id } = useParams();
+
+    const users = userRows.filter((userRow) => {
+        return userRow.id == id;
+        
+
+    });
+
     const typeAdmin = [
         { id: 1, type: 'admin', name: 'type' },
         { id: 2, type: 'user', name: 'type' },
     ];
-    const [values, setValues] = useState({
-        name: '',
-        email: '',
-        phone: '',
-        password: '',
-        address: '',
-    });
+    console.log('name', users.username);
 
-    useEffect(() => {
-        console.log(values);
-    }, [values]);
+    const [values, setValues] = useState({
+        name: users.username,
+        email: users.email,
+        phone: users.phone,
+        password: users.password,
+        address: users.address,
+    });
 
     const userInputs = [
         {
@@ -45,7 +53,6 @@ const NewUser = () => {
             placeholder: 'john_doe@gmail.com',
             pattern: '[a-z0-9]+@[a-z]+.[a-z]{2,3}',
             err: 'hãy nhập đúng định dạng của mail',
-
             required: true,
         },
         {
@@ -96,14 +103,7 @@ const NewUser = () => {
                 </div>
                 <div className={cx('bottom')}>
                     <div className={cx('left')}>
-                        <img
-                            src={
-                                file
-                                    ? URL.createObjectURL(file)
-                                    : 'https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg'
-                            }
-                            alt=""
-                        />
+                        <img src={file ? URL.createObjectURL(file) : {}} alt="" />
                     </div>
                     <div className={cx('right')}>
                         <form onSubmit={handleSubmit}>
@@ -161,4 +161,4 @@ const NewUser = () => {
     );
 };
 
-export default NewUser;
+export default EditUser;
