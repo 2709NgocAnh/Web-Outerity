@@ -1,10 +1,10 @@
 import React from 'react';
 
-export default function DetailsThumb({ images, setIndex }) {
+export default function DetailsThumb({ productImage, setIndex }) {
     return (
         <div className="thumb">
-            {images.map((img, index) => (
-                <img src={img} alt="" key={index} onClick={() => setIndex(index)} />
+            {productImage?.map((img, index) => (
+                <img src={img.image} alt="" key={index} onClick={() => setIndex(index)} />
             ))}
         </div>
     );

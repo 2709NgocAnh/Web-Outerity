@@ -1,64 +1,6 @@
 import styles from './Users.module.scss';
 import classNames from 'classnames/bind';
 const cx = classNames.bind(styles);
-export const userColumns = [
-    {
-        field: 'id',
-        headerName: 'ID',
-        width: 70,
-        headerClassName: 'super-app-theme--header',
-        headerAlign: 'center',
-    },
-    {
-        field: 'user',
-        headerName: 'User',
-        width: 230,
-        headerClassName: 'super-app-theme--header',
-        headerAlign: 'center',
-
-        renderCell: (params) => {
-            return (
-                <div className={cx('cellWithImg')}>
-                    <img className={cx('cellImg')} src={params.row.img} alt="avatar" />
-                    {params.row.username}
-                </div>
-            );
-        },
-    },
-    {
-        field: 'email',
-        headerName: 'Email',
-        width: 230,
-        headerClassName: 'super-app-theme--header',
-        headerAlign: 'center',
-    },
-
-    {
-        field: 'status',
-        headerName: 'Status',
-        width: 160,
-        renderCell: (params) => {
-            return <div className={`cellWithStatus ${params.row.status}`}>{params.row.status}</div>;
-        },
-        headerClassName: 'super-app-theme--header',
-        headerAlign: 'center',
-    },
-    {
-        field: 'create_at',
-        headerName: 'Ngày tạo',
-        width: 230,
-        headerClassName: 'super-app-theme--header',
-        headerAlign: 'center',
-    },
-    {
-        field: 'create_by',
-        headerName: 'Ngày Chỉnh sửa',
-        width: 230,
-        headerClassName: 'super-app-theme--header',
-        headerAlign: 'center',
-    },
-];
-
 //temporary data
 export const userRows = [
     {
