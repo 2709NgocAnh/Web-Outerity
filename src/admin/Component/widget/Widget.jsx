@@ -46,9 +46,9 @@ const Widget = ({ type }) => {
                 ),
             };
             break;
-        case 'earning':
+        case 'product':
             data = {
-                title: 'EARNINGS',
+                title: 'PRODUCT',
                 isMoney: true,
                 link: 'View net earnings',
                 icon: (
@@ -59,9 +59,9 @@ const Widget = ({ type }) => {
                 ),
             };
             break;
-        case 'balance':
+        case 'category':
             data = {
-                title: 'BALANCE',
+                title: 'CATEGORY',
                 isMoney: true,
                 link: 'See details',
                 icon: (
@@ -80,7 +80,7 @@ const Widget = ({ type }) => {
     }
 
     return (
-        <div className="widget">
+        <div className="category">
             <div className="left">
                 <span className="title">{data.title}</span>
                 <span className="counter">

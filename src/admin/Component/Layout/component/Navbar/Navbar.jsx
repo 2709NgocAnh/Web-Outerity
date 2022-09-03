@@ -24,7 +24,7 @@ const Navbar = () => {
                             itemProp="logo"
                             src="https://file.hstatic.net/200000312481/file/logoo_bf8b94d84c4242109555c773681d1a61.png"
                             alt="Outerity"
-                            classNames="img-responsive logoimg"
+                            className="img-responsive logoimg"
                         />
                     </NavLink>
                 </div>
