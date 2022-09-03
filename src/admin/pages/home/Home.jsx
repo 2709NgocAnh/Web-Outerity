@@ -1,5 +1,5 @@
-import './home.scss';
 import Widget from '~/admin/Component/widget/Widget';
+import './home.scss';
 // import Featured from '../../components/featured/Featured';
 // import Chart from '../../components/chart/Chart';
 import Table from '~/admin/Component/table/Table';
@@ -13,8 +13,8 @@ const Home = () => {
                 <div className="widgets">
                     <Widget type="user" />
                     <Widget type="order" />
-                    <Widget type="earning" />
-                    <Widget type="balance" />
+                    <Widget type="product" />
+                    <Widget type="category" />
                 </div>
                 {/* <div className="charts">
                     <Featured />

@@ -56,8 +56,8 @@ function Footer() {
                         <div className={cx('footer-col footer-block')}>
                             <h4 className={cx('footer-title')}>Liên kết</h4>
                             <div className={cx('footer-content toggle-footer')}>
-                                <ul class="tree-menu">
-                                    <li class="active">
+                                <ul className="tree-menu">
+                                    <li className="active">
                                         <span></span>
                                         <NavLink
                                             className={(nav) => cx('item', (nav) => ({ active: nav.isActive }))}
@@ -67,7 +67,7 @@ function Footer() {
                                         </NavLink>
                                     </li>
 
-                                    <li class="">
+                                    <li className="">
                                         <span></span>
                                         <NavLink
                                             className={(nav) => cx('item', (nav) => ({ active: nav.isActive }))}
@@ -77,7 +77,7 @@ function Footer() {
                                         </NavLink>
                                     </li>
 
-                                    <li class="">
+                                    <li className="">
                                         <span></span>
                                         <NavLink
                                             className={(nav) => cx('item', (nav) => ({ active: nav.isActive }))}
@@ -87,7 +87,7 @@ function Footer() {
                                         </NavLink>
                                     </li>
 
-                                    <li class="">
+                                    <li className="">
                                         <span></span>
                                         <NavLink
                                             className={(nav) => cx('item', (nav) => ({ active: nav.isActive }))}
@@ -148,7 +148,7 @@ function Footer() {
                                                 title="fb:page Facebook Social Plugin"
                                                 frameBorder="0"
                                                 allowtransparency="true"
-                                                allowfullscreen="true"
+                                                allowFullScreen={true}
                                                 scrolling="no"
                                                 allow="encrypted-media"
                                                 src="https://www.facebook.com/v12.0/plugins/page.php?adapt_container_width=true&amp;app_id=363772567412181&amp;channel=https%3A%2F%2Fstaticxx.facebook.com%2Fx%2Fconnect%2Fxd_arbiter%2F%3Fversion%3D46%23cb%3Df1c8a1d3efe8b34%26domain%3Douterity.com%26is_canvas%3Dfalse%26origin%3Dhttps%253A%252F%252Fouterity.com%252Ff61c8ea4d0f48%26relation%3Dparent.parent&amp;container_width=305&amp;height=300&amp;hide_cover=false&amp;href=https%3A%2F%2Fwww.facebook.com%2Fouterity&amp;locale=vi_VN&amp;sdk=joey&amp;show_facepile=true&amp;show_posts=false&amp;small_header=false"
