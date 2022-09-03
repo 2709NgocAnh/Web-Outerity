@@ -1,6 +1,5 @@
-import styles from './Slider.module.scss';
 import classNames from 'classnames/bind';
-import { height } from '@mui/system';
+import styles from './Slider.module.scss';
 
 function Slider() {
     const cx = classNames.bind(styles);

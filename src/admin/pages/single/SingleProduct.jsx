@@ -8,7 +8,7 @@ function SingleProduct() {
     const { id } = useParams();
 
     const product = Data.filter((userRow) => {
-        return userRow.id == id;
+        return userRow.id === id;
     });
 
     return (

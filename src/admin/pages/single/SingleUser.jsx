@@ -1,54 +1,87 @@
 import styles from './Single.module.scss';
 import classNames from 'classnames/bind';
-import { NavLink } from 'react-router-dom';
-import { useParams } from 'react-router-dom';
-import { userRows } from '~/admin/pages/Users/datatablesource';
+import { NavLink, useParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import moment from 'moment';
 
 function SingleUser() {
     const cx = classNames.bind(styles);
     const { id } = useParams();
 
-    const users = userRows.filter((userRow) => {
-        console.log('userRow', typeof userRow.id);
-        console.log('userRow', typeof id);
-        return userRow.id == id;
-    });
+    const [user, setUser] = useState();
+
+    useEffect(() => {
+        const aaa = async () => {
+            const data = await axios.get(`http://localhost:8080/tttn_be/public/api/user/profile/${id}`);
+            return data;
+        };
+        aaa()
+            .then((response) => {
+                setUser(response.data.user);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }, [id]);
 
     return (
         <div className={cx('single')}>
             <div className={cx('singleContainer')}>
                 <div className={cx('top')}>
                     <div className={cx('left')}>
-                        <h1 className={cx('title')}>Information</h1>
-                        {users.map((userRow) => {
-                            return (
-                                <div className={cx('item')} key={userRow.id}>
-                                    <NavLink
-                                        className={(nav) => cx({ active: nav.isActive })}
-                                        to={`/User/EditUser/${userRow.id}`}
-                                    >
-                                        <div className={cx('editButton')}>Edit</div>
-                                    </NavLink>
-                                    <img src={userRow.img} alt="" className={cx('itemImg')} />
+                        <h1 className={cx('title')}>{`Thông tin ${
+                            user?.type_id === 1 ? 'quản trị viên' : 'khách hàng'
+                        }`}</h1>
 
-                                    <div className={cx('details')}>
-                                        <h1 className={cx('title')}>{userRow.username}</h1>
-                                        <div className={cx('detailItem')}>
-                                            <span className={cx('itemKey')}>Status</span>
-                                            <span className={cx('itemValue')}>{userRow.status}</span>
-                                        </div>
-                                        <div className={cx('detailItem')}>
-                                            <span className={cx('itemKey')}>Email</span>
-                                            <span className={cx('itemValue')}>{userRow.email}</span>
-                                        </div>
-                                        <div className={cx('detailItem')}>
-                                            <span className={cx('itemKey')}>Ngày tạo </span>
-                                            <span className={cx('itemValue')}>{userRow.create_at}</span>
-                                        </div>
-                                    </div>
+                        <div className={cx('item')} key={user?.id}>
+                            <NavLink
+                                className={(nav) => cx({ active: nav.isActive })}
+                                to={`/User/EditUser/${user?.id}`}
+                            >
+                                <div className={cx('editButton')}>Edit</div>
+                            </NavLink>
+                            <img
+                                src={
+                                    user?.img ||
+                                    'http://ativn.edu.vn/wp-content/uploads/2018/03/user-male-icon-300x300.png'
+                                }
+                                alt="Ảnh đại diện"
+                                className={cx('itemImg')}
+                            />
+
+                            <div className={cx('details')}>
+                                <h1 className={cx('title')}>{user?.name}</h1>
+                                <div className={cx('detailItem')}>
+                                    <span className={cx('itemKey')}>Loại tài khoản:</span>
+                                    <span className={cx('itemValue')}>
+                                        {user?.type_id === 1 ? 'Admin' : 'Khách hàng'}
+                                    </span>
                                 </div>
-                            );
-                        })}
+                                <div className={cx('detailItem')}>
+                                    <span className={cx('itemKey')}>Email:</span>
+                                    <span className={cx('itemValue')}>{user?.email}</span>
+                                </div>
+                                <div className={cx('detailItem')}>
+                                    <span className={cx('itemKey')}>Ngày tạo:</span>
+                                    <span className={cx('itemValue')}>
+                                        {moment(user?.created_at).format('DD/MM/YYYY HH:mm')}
+                                    </span>
+                                </div>
+                                <div className={cx('detailItem')}>
+                                    <span className={cx('itemKey')}>Ngày chỉnh sửa:</span>
+                                    <span className={cx('itemValue')}>
+                                        {moment(user?.updated_at).format('DD/MM/YYYY HH:mm')}
+                                    </span>
+                                </div>
+                                {user?.created_by && (
+                                    <div className={cx('detailItem')}>
+                                        <span className={cx('itemKey')}>Người tạo:</span>
+                                        <span className={cx('itemValue')}>{user?.created_by}</span>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

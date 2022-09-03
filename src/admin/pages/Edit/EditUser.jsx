@@ -1,10 +1,9 @@
 import classNames from 'classnames/bind';
 import styles from './EditUser.module.scss';
 import DriveFolderUploadOutlinedIcon from '@mui/icons-material/DriveFolderUploadOutlined';
-import { useParams } from 'react-router-dom';
-import { userRows } from '~/admin/pages/Users/datatablesource';
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 
 const EditUser = () => {
     const cx = classNames.bind(styles);
@@ -14,31 +13,40 @@ const EditUser = () => {
 
     const { id } = useParams();
 
-    const users = userRows.filter((userRow) => {
-        return userRow.id == id;
-        
+    const [user, setUser] = useState();
 
-    });
+    useEffect(() => {
+        const aaa = async () => {
+            const data = await axios.get(`http://localhost:8080/tttn_be/public/api/user/profile/${id}`);
+            return data;
+        };
+        aaa()
+            .then((response) => {
+                setUser(response.data.user);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }, [id]);
 
     const typeAdmin = [
         { id: 1, type: 'admin', name: 'type' },
         { id: 2, type: 'user', name: 'type' },
     ];
-    console.log('name', users.username);
 
     const [values, setValues] = useState({
-        name: users.username,
-        email: users.email,
-        phone: users.phone,
-        password: users.password,
-        address: users.address,
+        name: user?.name,
+        email: user?.email,
+        // phone: user.phone,
+        // password: user.password,
+        // address: user.address,
     });
 
     const userInputs = [
         {
             id: 1,
             name: 'name',
-            label: 'Username',
+            label: 'Họ và tên',
             type: 'text',
             placeholder: 'john_doe',
             pattern: '^[[A-Z]|[a-z]][[A-Z]|[a-z]|\\d|[_]]{7,29}$',
@@ -55,41 +63,44 @@ const EditUser = () => {
             err: 'hãy nhập đúng định dạng của mail',
             required: true,
         },
-        {
-            id: 3,
-            name: 'phone',
-            label: 'Phone',
-            type: 'tel',
-            placeholder: '+1 234 567 89',
-            pattern: '^[0-9]{10,11}$',
-            err: 'hãy nhập sôd điện thoại',
-            required: true,
-        },
-        {
-            id: 4,
-            name: 'password',
-            label: 'Password',
-            type: 'password',
-            pattern: `^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{5,20}$`,
-            err: 'hãy nhập password',
-            required: true,
-        },
-        {
-            id: 5,
-            name: 'address',
-            label: 'Address',
-            type: 'text',
-            placeholder: 'Elton St. 216 NewYork',
-            err: 'hãy nhập địa chỉ',
-            required: true,
-        },
+        // {
+        //     id: 3,
+        //     name: 'phone',
+        //     label: 'Phone',
+        //     type: 'tel',
+        //     placeholder: '+1 234 567 89',
+        //     pattern: '^[0-9]{10,11}$',
+        //     err: 'hãy nhập sôd điện thoại',
+        //     required: true,
+        // },
+        // {
+        //     id: 4,
+        //     name: 'password',
+        //     label: 'Password',
+        //     type: 'password',
+        //     pattern: `^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{5,20}$`,
+        //     err: 'hãy nhập password',
+        //     required: true,
+        // },
+        // {
+        //     id: 5,
+        //     name: 'address',
+        //     label: 'Address',
+        //     type: 'text',
+        //     placeholder: 'Elton St. 216 NewYork',
+        //     err: 'hãy nhập địa chỉ',
+        //     required: true,
+        // },
     ];
+
     const onChange = (e) => {
         setValues({ ...values, [e.target.name]: e.target.value });
     };
+
     const handleFocus = (e) => {
         setFocused(true);
     };
+
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log(values);
@@ -103,7 +114,16 @@ const EditUser = () => {
                 </div>
                 <div className={cx('bottom')}>
                     <div className={cx('left')}>
-                        <img src={file ? URL.createObjectURL(file) : {}} alt="" />
+                        <img
+                            src={
+                                file
+                                    ? URL.createObjectURL(file)
+                                    : user?.image
+                                    ? user?.image
+                                    : 'http://ativn.edu.vn/wp-content/uploads/2018/03/user-male-icon-300x300.png'
+                            }
+                            alt="Ảnh đại diện"
+                        />
                     </div>
                     <div className={cx('right')}>
                         <form onSubmit={handleSubmit}>

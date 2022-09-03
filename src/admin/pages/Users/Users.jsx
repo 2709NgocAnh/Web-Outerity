@@ -2,28 +2,120 @@ import styles from './Users.module.scss';
 import classNames from 'classnames/bind';
 import Box from '@mui/material/Box';
 import { DataGrid } from '@mui/x-data-grid';
-import { userColumns, userRows } from './datatablesource';
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import moment from 'moment';
 
 function Users() {
     const cx = classNames.bind(styles);
-    const [data, setData] = useState(userRows);
+    const [data, setData] = useState([]);
 
     const handleDelete = (id) => {
         setData(data.filter((item) => item.id !== id));
     };
 
-    const actionColumn = [
+    useEffect(() => {
+        const aaa = async () => {
+            const data = await axios.get('http://localhost:8080/tttn_be/public/api/user/list');
+            return data;
+        };
+        aaa()
+            .then((response) => {
+                setData(response.data.listUser);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }, []);
+
+    const userColumns = [
+        {
+            field: 'id',
+            headerName: 'ID',
+            width: 70,
+            headerClassName: 'super-app-theme--header',
+            headerAlign: 'center',
+
+            renderCell: (params) => {
+                return <div style={{ margin: '0 auto' }}>{params.row.id}</div>;
+            },
+        },
+        {
+            field: 'name',
+            headerName: 'Họ và tên',
+            width: 230,
+            headerClassName: 'super-app-theme--header',
+            headerAlign: 'center',
+
+            renderCell: (params) => {
+                return (
+                    <div className={cx('cellWithImg')} style={{ margin: '0 auto' }}>
+                        {/* <img className={cx('cellImg')} src={params.row.img} alt="avatar" /> */}
+                        {params.row.name}
+                    </div>
+                );
+            },
+        },
+        {
+            field: 'email',
+            headerName: 'Email',
+            width: 230,
+            headerClassName: 'super-app-theme--header',
+            headerAlign: 'center',
+
+            renderCell: (params) => {
+                return <div style={{ margin: '0 auto' }}>{params.row.email}</div>;
+            },
+        },
+
+        {
+            field: 'type',
+            headerName: 'Loại',
+            width: 100,
+            headerClassName: 'super-app-theme--header',
+            headerAlign: 'center',
+
+            renderCell: (params) => {
+                return <div style={{ margin: '0 auto' }}>{params.row.type_id === 1 ? 'Admin' : 'Khách hàng'}</div>;
+            },
+        },
+        {
+            field: 'create_at',
+            headerName: 'Ngày tạo',
+            width: 230,
+            headerClassName: 'super-app-theme--header',
+            headerAlign: 'center',
+
+            renderCell: (params) => {
+                return (
+                    <div style={{ margin: '0 auto' }}>{moment(params.row.created_at).format('DD/MM/YYYY HH:mm')}</div>
+                );
+            },
+        },
+        {
+            field: 'updated_at',
+            headerName: 'Ngày Chỉnh sửa',
+            width: 230,
+            headerClassName: 'super-app-theme--header',
+            headerAlign: 'center',
+
+            renderCell: (params) => {
+                return (
+                    <div style={{ margin: '0 auto' }}>{moment(params.row.updated_at).format('DD/MM/YYYY HH:mm')}</div>
+                );
+            },
+        },
         {
             field: 'action',
             headerName: 'Action',
             width: 200,
             headerClassName: 'super-app-theme--header',
             headerAlign: 'center',
+
             renderCell: (params) => {
                 return (
-                    <div className={cx('cellAction')}>
+                    <div className={cx('cellAction')} style={{ margin: '0 auto' }}>
                         <Link to={`/users/${params.row.id}`} style={{ textDecoration: 'none' }}>
                             <div className={cx('viewButton')}>View</div>
                         </Link>
@@ -35,6 +127,7 @@ function Users() {
             },
         },
     ];
+
     return (
         <div className={cx('datatable')}>
             <div className={cx('datatableTitle')}>
@@ -48,16 +141,11 @@ function Users() {
                     height: '100%',
                     width: '100%',
                     '& .super-app-theme--header': {
-                        backgroundColor: '#7451f8',
+                        backgroundColor: '#89CFFD',
                     },
                 }}
             >
-                <DataGrid
-                    className={cx('datagrid')}
-                    rows={data}
-                    columns={userColumns.concat(actionColumn)}
-                    checkboxSelection
-                />
+                <DataGrid className={cx('datagrid')} rows={data} columns={userColumns} checkboxSelection />
             </Box>
         </div>
     );
