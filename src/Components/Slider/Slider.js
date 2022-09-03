@@ -1,38 +1,8 @@
-import React, { useEffect, useState } from 'react';
 import styles from './Slider.module.scss';
 import classNames from 'classnames/bind';
-// import BtnSlider from './BtnSlider';
-// import dataSlider from './dataSlider';
 
 function Slider() {
     const cx = classNames.bind(styles);
-
-    // const [slideIndex, setSlideIndex] = useState(1);
-    // useEffect(() => {
-    //     const interval = setInterval(() => {
-    //         nextSlide();
-    //     }, 3000);
-    //     return () => clearInterval(interval);
-    // });
-    // const nextSlide = () => {
-    //     if (slideIndex !== dataSlider.length) {
-    //         setSlideIndex(slideIndex + 1);
-    //     } else if (slideIndex === dataSlider.length) {
-    //         setSlideIndex(1);
-    //     }
-    // };
-
-    // const prevSlide = () => {
-    //     if (slideIndex !== 1) {
-    //         setSlideIndex(slideIndex - 1);
-    //     } else if (slideIndex === 1) {
-    //         setSlideIndex(dataSlider.length);
-    //     }
-    // };
-
-    // const moveDot = (index) => {
-    //     setSlideIndex(index);
-    // };
 
     return (
         <>
@@ -40,6 +10,8 @@ function Slider() {
                 <div className={cx('carousel-inner')}>
                     <div className={cx('carousel-item active')}>
                         <img
+                            width="1620px"
+                            height="700px"
                             src="https://file.hstatic.net/200000312481/file/dsc05692_39baebe1403c487581b4cd9a39354736.jpg"
                             className={cx('d-block w-100')}
                             alt="..."
@@ -47,6 +19,9 @@ function Slider() {
                     </div>
                     <div className={cx('carousel-item')}>
                         <img
+                            width="1620px"
+                            height="700px"
+                            object-fit="cover"
                             src="https://i.pinimg.com/564x/01/b9/0d/01b90dcef5c3cf1e182c62a41b0db403.jpg"
                             className={cx('d-block w-100')}
                             alt="..."
@@ -54,6 +29,9 @@ function Slider() {
                     </div>
                     <div className={cx('carousel-item')}>
                         <img
+                            width="1620px"
+                            height="700px"
+                            object-fit="cover"
                             src="https://i.stack.imgur.com/4o=1baD.jpg?s=328&g"
                             className={cx('d-block w-100')}
                             alt="..."
@@ -64,8 +42,9 @@ function Slider() {
 
             <div>
                 <button
-                    className={cx('carousel-control-prev')}
+                    className={cx('carousel-control-prev btn1')}
                     type="button"
+                    top="inherit"
                     data-bs-target="#carouselExampleControls"
                     data-bs-slide="prev"
                 >
@@ -73,7 +52,7 @@ function Slider() {
                     <span className={cx('visually-hidden')}>Previous</span>
                 </button>
                 <button
-                    className={cx('carousel-control-next')}
+                    className={cx('carousel-control-next btn1')}
                     type="button"
                     data-bs-target="#carouselExampleControls"
                     data-bs-slide="next"
@@ -82,53 +61,6 @@ function Slider() {
                     <span className={cx('visually-hidden')}>Next</span>
                 </button>
             </div>
-
-            {/* </div> */}
-            {/* <input checked type="radio" name="slider" id="slide1" />
-            <input type="radio" name="slider" id="slide2" />
-            <input type="radio" name="slider" id="slide3" />
-            <input type="radio" name="slider" id="slide4" />
-            <input type="radio" name="slider" id="slide5" />
-            <div className ={cx({cx('slider-wrapper')}>
-                <div className ={cx({cx('inner')}>
-                    {dataSlider.map((obj, index) => {
-                        return (
-                            <article>
-                                <div key={obj.id}>
-                                    <div class="info top-left">
-                                        <h3>Malacca</h3>
-                                    </div>
-                                    <img src={obj.imgURL} alt={`slider${index + 1}.jpeg`} />
-                                </div>
-                            </article>
-                        );
-                    })}
-                </div>
-                <div class="slider-prev-next-control">
-                    <label forName="slide1"></label>
-                    <label forName="slide2"></label>
-                    <label forName="slide3"></label>
-                    <label forName="slide4"></label>
-                    <label forName="slide5"></label>
-                </div>
-                <div class="slider-dot-control">
-                    <label forName="slide1"></label>
-                    <label forName="slide2"></label>
-                    <label forName="slide3"></label>
-                    <label forName="slide4"></label>
-                    <label forName="slide5"></label>
-                </div> */}
-
-            {/* <div className ={cx({cx('container-dots')}>
-                    {Array.from({ length: 3 }).map((item, index) => (
-                        <div
-                            key={index}
-                            onClick={() => moveDot(index + 1)}
-                            className ={cx({slideIndex === index + 1 ? 'dot active' : 'dot'}
-                        ></div>
-                    ))}
-                </div> */}
-            {/* </div> */}
         </>
     );
 }

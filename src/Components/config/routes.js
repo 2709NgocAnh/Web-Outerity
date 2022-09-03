@@ -20,10 +20,13 @@ const routes = {
     admin: '/admin',
     user: '/admin/user',
 
-    single: '/users/:id',
+    singleuser: '/users/:id',
+    singleproduct: '/products/:id',
     users: '/users',
     product: '/product',
     newuser: 'users/new-user',
+    edituser: 'User/EditUser/:id',
+
     newproduct: 'product/new-product',
     order: '/order',
     category: '/category',

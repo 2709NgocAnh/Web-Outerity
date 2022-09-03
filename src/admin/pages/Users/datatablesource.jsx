@@ -2,13 +2,20 @@ import styles from './Users.module.scss';
 import classNames from 'classnames/bind';
 const cx = classNames.bind(styles);
 export const userColumns = [
-    { field: 'id', headerName: 'ID', width: 70, headerClassName: 'super-app-theme--header', headerAlign: 'center' },
+    {
+        field: 'id',
+        headerName: 'ID',
+        width: 70,
+        headerClassName: 'super-app-theme--header',
+        headerAlign: 'center',
+    },
     {
         field: 'user',
         headerName: 'User',
         width: 230,
         headerClassName: 'super-app-theme--header',
         headerAlign: 'center',
+
         renderCell: (params) => {
             return (
                 <div className={cx('cellWithImg')}>
@@ -27,19 +34,26 @@ export const userColumns = [
     },
 
     {
-        field: 'age',
-        headerName: 'Age',
-        width: 100,
-        headerClassName: 'super-app-theme--header',
-        headerAlign: 'center',
-    },
-    {
         field: 'status',
         headerName: 'Status',
         width: 160,
         renderCell: (params) => {
             return <div className={`cellWithStatus ${params.row.status}`}>{params.row.status}</div>;
         },
+        headerClassName: 'super-app-theme--header',
+        headerAlign: 'center',
+    },
+    {
+        field: 'create_at',
+        headerName: 'Ngày tạo',
+        width: 230,
+        headerClassName: 'super-app-theme--header',
+        headerAlign: 'center',
+    },
+    {
+        field: 'create_by',
+        headerName: 'Ngày Chỉnh sửa',
+        width: 230,
         headerClassName: 'super-app-theme--header',
         headerAlign: 'center',
     },
@@ -53,7 +67,8 @@ export const userRows = [
         img: 'https://images.pexels.com/photos/1820770/pexels-photo-1820770.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500',
         status: 'admin',
         email: '1snow@gmail.com',
-        age: 35,
+        create_at: '27/09/2001',
+        create_by: '27/09/2001',
     },
     {
         id: 2,
@@ -62,6 +77,8 @@ export const userRows = [
         email: '2snow@gmail.com',
         status: 'admin',
         age: 42,
+        create_at: '27/09/2001',
+        create_by: '27/09/2001',
     },
     {
         id: 3,
@@ -70,6 +87,8 @@ export const userRows = [
         email: '3snow@gmail.com',
         status: 'admin',
         age: 45,
+        create_at: '27/09/2001',
+        create_by: '27/09/2001',
     },
     {
         id: 4,
@@ -78,6 +97,8 @@ export const userRows = [
         email: '4snow@gmail.com',
         status: 'user',
         age: 16,
+        create_at: '27/09/2001',
+        create_by: '27/09/2001',
     },
     {
         id: 5,
@@ -86,6 +107,8 @@ export const userRows = [
         email: '5snow@gmail.com',
         status: 'user',
         age: 22,
+        create_at: '27/09/2001',
+        create_by: '27/09/2001',
     },
     {
         id: 6,
@@ -94,6 +117,8 @@ export const userRows = [
         email: '6snow@gmail.com',
         status: 'user',
         age: 15,
+        create_at: '27/09/2001',
+        create_by: '27/09/2001',
     },
     {
         id: 7,

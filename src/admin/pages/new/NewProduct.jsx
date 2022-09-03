@@ -8,9 +8,6 @@ const NewProduct = () => {
     const [focused, setFocused] = useState(false);
     const [files, setFiles] = useState([]);
     const [desc, setDesc] = useState('');
-    // const [errs, setErrs] = useState({
-
-    // }
 
     const [values, setValues] = useState({
         id: '',
@@ -18,12 +15,6 @@ const NewProduct = () => {
         price: '',
         color: '',
         size: '',
-        // description: '',
-
-        // num: 12,
-        // updated_at: 25 / 12 / 2022,
-        // created_by: 'ngoc anh',
-        // updated_by: 'ngoc anh',
     });
 
     const productInputs = [
@@ -57,15 +48,6 @@ const NewProduct = () => {
             err: 'hãy nhập giá bán',
             require: true,
         },
-        // {
-        //     id: 2,
-        //     name: 'categoty_id',
-        //     label: 'categoty_id',
-        //     type: 'number',
-        //     placeholder: '123',
-        //     err: 'hãy nhập tên sản phẩm',
-        //     require: true,
-        // },
 
         {
             id: 4,
@@ -85,60 +67,6 @@ const NewProduct = () => {
             err: 'hãy nhập Nhập size áo',
             require: true,
         },
-        // {
-        //     id: 6,
-        //     name: 'description',
-        //     label: 'Description',
-        //     type: 'text',
-        //     placeholder: 'Description',
-        //     err: 'hãy nhập tên sản phẩm',
-        //     require: true,
-        // },
-        // {
-        //     id: 7,
-        //     name: 'num_buy',
-        //     label: 'Số lượng đã bán',
-        //     type: 'number',
-        //     placeholder: 'Nhập Số lượng đã bán',
-        //     err: 'hãy nhập tên sản phẩm',
-        //     require: true,
-        // },
-        // {
-        //     id: 8,
-        //     name: 'created_at',
-        //     label: 'Ngày tạo',
-        //     type: 'date',
-        //     placeholder: '27/9/2001',
-        //     err: 'hãy nhập tên sản phẩm',
-        //     require: true,
-        // },
-        // {
-        //     id: 9,
-        //     name: 'updated_at',
-        //     label: 'Ngày cập nhật',
-        //     type: 'date',
-        //     placeholder: '27/9/2001',
-        //     err: 'hãy nhập tên sản phẩm',
-        //     require: true,
-        // },
-        // {
-        //     id: 10,
-        //     name: 'created_by',
-        //     label: 'Người  tạo',
-        //     type: 'date',
-        //     placeholder: 'Ngọc Anh',
-        //     err: 'hãy nhập tên sản phẩm',
-        //     require: true,
-        // },
-        // {
-        //     id: 11,
-        //     name: 'updated_by',
-        //     label: 'Người cập nhật',
-        //     type: 'text',
-        //     placeholder: 'Như Phượng',
-        //     err: 'hãy nhập tên sản phẩm',
-        //     require: true,
-        // },
     ];
     const onChange = (e) => {
         setValues({ ...values, [e.target.name]: e.target.value });
@@ -174,36 +102,6 @@ const NewProduct = () => {
                             {Object.values(files).map((img, index) => (
                                 <img src={URL.createObjectURL(img)} alt="" key={index} />
                             ))}
-
-                            {/* {console.log(typeof files)}
-                            {console.log(files)} */}
-
-                            {/* {files.forEach((element) => console.log('OKs'))} */}
-
-                            {/* <img
-                                src={
-                                    file
-                                        ? URL.createObjectURL(file)
-                                        : 'https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg'
-                                }
-                                alt=""
-                            />
-                            <img
-                                src={
-                                    file
-                                        ? URL.createObjectURL(file)
-                                        : 'https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg'
-                                }
-                                alt=""
-                            />
-                            <img
-                                src={
-                                    file
-                                        ? URL.createObjectURL(file)
-                                        : 'https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg'
-                                }
-                                alt=""
-                            /> */}
                         </div>
                     </div>
                     <div className={cx('right')}>
@@ -219,7 +117,6 @@ const NewProduct = () => {
                                     style={{ display: 'none' }}
                                     multiple
                                 />
-                                {/* {console.log(files)} */}
                             </div>
 
                             {productInputs.map((input) => (
@@ -244,9 +141,7 @@ const NewProduct = () => {
                                     onChange={(e) => {
                                         setDesc(...e.target.value);
                                     }}
-                                >
-                                    phan thị ngọc anh
-                                </textarea>
+                                ></textarea>
                             </div>
                             <button>Send</button>
                         </form>

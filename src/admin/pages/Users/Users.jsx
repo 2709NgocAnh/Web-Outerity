@@ -56,8 +56,6 @@ function Users() {
                     className={cx('datagrid')}
                     rows={data}
                     columns={userColumns.concat(actionColumn)}
-                    pageSize={9}
-                    rowsPerPageOptions={[2]}
                     checkboxSelection
                 />
             </Box>
