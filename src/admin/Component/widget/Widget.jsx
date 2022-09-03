@@ -80,7 +80,7 @@ const Widget = ({ type }) => {
     }
 
     return (
-        <div className="category">
+        <div className="widget ">
             <div className="left">
                 <span className="title">{data.title}</span>
                 <span className="counter">

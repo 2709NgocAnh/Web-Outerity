@@ -1,12 +1,18 @@
 import styles from './Slider.module.scss';
 import classNames from 'classnames/bind';
+import { height } from '@mui/system';
 
 function Slider() {
     const cx = classNames.bind(styles);
 
     return (
         <>
-            <div id="carouselExampleControls" className={cx('carousel slide')} data-bs-ride="carousel">
+            <div
+                id="carouselExampleControls"
+                className={cx('carousel slide')}
+                data-bs-ride="carousel"
+                style={{ width: '100%' }}
+            >
                 <div className={cx('carousel-inner')}>
                     <div className={cx('carousel-item active')}>
                         <img
@@ -38,28 +44,28 @@ function Slider() {
                         />
                     </div>
                 </div>
-            </div>
-
-            <div>
-                <button
-                    className={cx('carousel-control-prev btn1')}
-                    type="button"
-                    top="inherit"
-                    data-bs-target="#carouselExampleControls"
-                    data-bs-slide="prev"
-                >
-                    <span className={cx('carousel-control-prev-icon')} aria-hidden="true" />
-                    <span className={cx('visually-hidden')}>Previous</span>
-                </button>
-                <button
-                    className={cx('carousel-control-next btn1')}
-                    type="button"
-                    data-bs-target="#carouselExampleControls"
-                    data-bs-slide="next"
-                >
-                    <span className={cx('carousel-control-next-icon')} aria-hidden="true" />
-                    <span className={cx('visually-hidden')}>Next</span>
-                </button>
+                <div>
+                    <button
+                        className={cx('carousel-control-prev btn1')}
+                        type="button"
+                        data-bs-target="#carouselExampleControls"
+                        data-bs-slide="prev"
+                        style={{ width: 'auto', paddingLeft: 25 }}
+                    >
+                        <span className={cx('carousel-control-prev-icon')} aria-hidden="true" />
+                        <span className={cx('visually-hidden')}>Previous</span>
+                    </button>
+                    <button
+                        className={cx('carousel-control-next btn1')}
+                        type="button"
+                        data-bs-target="#carouselExampleControls"
+                        data-bs-slide="next"
+                        style={{ width: 'auto', paddingRight: 35 }}
+                    >
+                        <span className={cx('carousel-control-next-icon')} aria-hidden="true" />
+                        <span className={cx('visually-hidden')}>Next</span>
+                    </button>
+                </div>
             </div>
         </>
     );
