@@ -52,15 +52,15 @@ function Header() {
                         <li>
                             <MenuItem title="Shop" to={config.routes.shop} />
                         </li>
-                        <li>
+                        {/* <li>
                             <MenuItem title="News" to={config.routes.news} />
-                        </li>
+                        </li> */}
                         <li>
                             <MenuItem title="About" to={config.routes.about} />
                         </li>
-                        <li>
+                        {/* <li>
                             <MenuItem title="Sale" to={config.routes.sale} />
-                        </li>
+                        </li> */}
                         <li>
                             <MenuItem title="Contact" to={config.routes.contact} />
                         </li>
@@ -70,14 +70,14 @@ function Header() {
                     </Menu>
                 </ul>
 
-                <div className={cx('action')}>
-                    <div className={cx('search')}>
-                        <input placeholder="Tim kiem..." spellCheck={false} className="search" />
+                <div className={cx('search')}>
+                    <input placeholder="Tim kiem..." spellCheck={false} className="search" />
 
-                        <button className={cx('search-btn')} onClick={() => {}}>
-                            <FontAwesomeIcon icon={faSearch} />
-                        </button>
-                    </div>
+                    <button className={cx('search-btn')} onClick={() => {}}>
+                        <FontAwesomeIcon icon={faSearch} />
+                    </button>
+                </div>
+                <div className={cx('action')}>
                     <div className={cx('Register-Signup')}>
                         <NavLink className={(nav) => ({ active: nav.isActive })} to={config.routes.register}>
                             <FontAwesomeIcon icon={faUser} />

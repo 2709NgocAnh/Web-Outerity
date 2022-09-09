@@ -13,9 +13,7 @@
                 flex: 1;
                 -webkit-box-shadow: 2px 4px 10px 1px rgba(0, 0, 0, 0.47);
                 box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
-                padding: 40px;
                 position: relative;
-                height: 100vh;
 
                 .editButton {
                     position: absolute;
@@ -33,12 +31,37 @@
                 .item {
                     display: flex;
                     gap: 20px;
-
                     .itemImg {
-                        width: 100px;
-                        height: 100px;
-                        border-radius: 50%;
-                        object-fit: cover;
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        gap: 50px;
+                        .itemImg--user {
+                            width: 100px;
+                            height: 100px;
+                            border-radius: 50%;
+                            object-fit: cover;
+                        }
+                        .itemContainer {
+                            width: 200px;
+                            height: 200px;
+                            background-size: 200px;
+                            // border-radius: 50%;
+                            object-fit: cover;
+                        }
+                        .thumb {
+                            display: flex;
+                            cursor: pointer;
+
+                            img {
+                                width: 50px;
+                                height: 45px;
+                                display: block;
+                                object-fit: cover;
+                                margin: 20px;
+                                overflow: hidden;
+                            }
+                        }
                     }
 
                     .details {
@@ -50,6 +73,7 @@
                         .detailItem {
                             margin-bottom: 10px;
                             font-size: 14px;
+                            padding-right: 30px;
 
                             .itemKey {
                                 font-weight: bold;
@@ -84,6 +108,8 @@
             color: gray;
             margin-bottom: 40px;
             font-weight: 700;
+            padding-left: 30px;
+            padding-top: 30px;
         }
     }
 }

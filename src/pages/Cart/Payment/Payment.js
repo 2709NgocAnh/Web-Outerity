@@ -13,20 +13,23 @@ export default function Payment() {
     const [name, setName] = useState('');
     const [phone, setPhone] = useState('');
     const [address, setAddress] = useState('');
+    const [email, setEmail] = useState('');
 
     const [err1, setErr1] = useState('');
     const [err2, setErr2] = useState('');
     const [err3, setErr3] = useState('');
+    const [err4, setErr4] = useState('');
 
     const [f1, setF1] = useState(false);
     const [f2, setF2] = useState(false);
     const [f3, setF3] = useState(false);
+    const [f4, setF4] = useState(false);
 
     const [cart, setCart] = value.cart;
     const [total, setTotal] = useState(0);
 
     useEffect(() => {
-        if (name === '' && f1) {
+        if (name === '' && f1 && '^[[A-Z]|[a-z]][[A-Z]|[a-z]|\\d|[_]]{7,29}$') {
             setErr1('Hãy nhập họ và tên');
         } else {
             setErr1('');
@@ -109,6 +112,7 @@ export default function Payment() {
                                                             }}
                                                             value={name}
                                                         />
+                                                        {console.log(name)}
                                                         <span>{err1}</span>
                                                     </div>
                                                 </div>

@@ -44,28 +44,25 @@ const Sidebar = () => {
                             <span>Users</span>
                         </li>
                     </Link>
-                    <Link to="/product" style={{ textDecoration: 'none' }}>
+                    <Link to="/products" style={{ textDecoration: 'none' }}>
                         <li>
                             <StoreIcon className={cx('icon')} />
                             <span>Products</span>
                         </li>
                     </Link>
-                    <Link to="/order" style={{ textDecoration: 'none' }}>
+                    <Link to="/orders" style={{ textDecoration: 'none' }}>
                         <li>
                             <CreditCardIcon className={cx('icon')} />
                             <span>Orders</span>
                         </li>
                     </Link>
-                    <Link to="/category" style={{ textDecoration: 'none' }}>
+                    <Link to="/categorys" style={{ textDecoration: 'none' }}>
                         <li>
                             <CreditCardIcon className={cx('icon')} />
                             <span>Caregory</span>
                         </li>
                     </Link>
-                    <li>
-                        <LocalShippingIcon className={cx('icon')} />
-                        <span>Delivery</span>
-                    </li>
+
                     <p className={cx('title')}>USEFUL</p>
                     {/* <li>
                         <InsertChartIcon className={cx('icon')} />

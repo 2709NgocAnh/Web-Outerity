@@ -14,6 +14,7 @@ const Order = () => {
             user_id: 1,
 
             fullname: 'Snow',
+            product: 'trang sức',
             img: 'https://imprices.pexels.com/photos/1820770/pexels-photo-1820770.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500',
             status: 'active',
             email: '1snow@gmail.commmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm',
@@ -140,34 +141,20 @@ const Order = () => {
             headerClassName: 'super-app-theme--header',
             headerAlign: 'center',
         },
-        // {
-        //     field: 'ordercode',
-        //     headerName: 'Ordercode',
-        //     width: 70,
-        //     headerClassName: 'super-app-theme--header',
-        //     headerAlign: 'center',
-        // },
-        // {
-        //     field: 'fullname',
-        //     headerName: 'Name',
-        //     width: 170,
-        //     headerClassName: 'super-app-theme--header',
-        //     headerAlign: 'center',
-        // },
+
         {
-            field: 'user',
+            field: 'fullname',
+            headerName: 'Name User',
+            width: 270,
+            headerClassName: 'super-app-theme--header',
+            headerAlign: 'center',
+        },
+        {
+            field: 'product',
             headerName: 'Product',
             width: 230,
             headerClassName: 'super-app-theme--header',
             headerAlign: 'center',
-            renderCell: (params) => {
-                return (
-                    <div className={cx('cellWithImg')}>
-                        <img className={cx('cellImg')} src={params.row.img} alt="avatar" />
-                        {params.row.name}
-                    </div>
-                );
-            },
         },
         {
             field: 'categogy_id',
@@ -273,12 +260,7 @@ const Order = () => {
         <div className={cx('list')}>
             <div className={cx('listContainer')}>
                 <div className={cx('datatable')}>
-                    <div className={cx('datatableTitle')}>
-                        Danh sách hóa đơn
-                        <Link to="/users/new" className={cx('link')}>
-                            Thêm mới
-                        </Link>
-                    </div>
+                    <div className={cx('datatableTitle')}>Danh sách hóa đơn</div>
                     <Box
                         sx={{
                             height: '100%',

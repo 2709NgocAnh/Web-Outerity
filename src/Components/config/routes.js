@@ -19,17 +19,24 @@ const routes = {
     collectbot: 'collectbot',
     admin: '/admin',
     user: '/admin/user',
+    product: '/admin/product',
+    order: '/admin/order',
+    categorys: '/admin/category',
 
     singleuser: '/users/:id',
     singleproduct: '/products/:id',
     users: '/users',
-    product: '/product',
+    products: '/products',
     newuser: 'users/new-user',
     edituser: 'User/EditUser/:id',
+    editproduct: 'Product/EditProduct/:id',
+    editcategory: 'Category/EditCategory/:id',
 
     newproduct: 'product/new-product',
-    order: '/order',
-    category: '/category',
+    orders: '/orders',
+    newcategorys: 'categorys/new-categorys',
+
+    categorys: '/categorys',
     profile: '/profile',
 
     // login: '/admin/login',

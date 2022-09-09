@@ -38,22 +38,26 @@
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
 
-    .status {
-        padding: 5px;
-        border-radius: 5px;
-        font-size: 1.4rem;
+    .cellWithStatus {
+        width: 80px;
 
-        &.active {
+        border: 1px solid;
+        border-radius: 5px;
+        text-align: center;
+        .active {
             background-color: rgba(0, 128, 0, 0.05);
             color: green;
+            padding: 5px;
         }
-        &.pending {
+        .pending {
             background-color: rgba(255, 217, 0, 0.05);
             color: goldenrod;
+            padding: 5px;
         }
-        &.passive {
+        .passive {
             background-color: rgba(255, 0, 0, 0.05);
             color: crimson;
+            padding: 5px;
         }
     }
 

@@ -9,7 +9,13 @@ export const Data = [
     {
         id: 1,
         name: 'Snow',
-        img: 'https://m.media-amazon.com/images/I/81hH5vK-MCL._AC_UY327_FMwebp_QL65_.jpg',
+        // img: 'https://m.media-amazon.com/images/I/81hH5vK-MCL._AC_UY327_FMwebp_QL65_.jpg',
+        images: [
+            'https://product.hstatic.net/200000445353/product/ork401-2_0968602092d54d108e8922ef3137fd54_master.jpg',
+            'https://product.hstatic.net/200000312481/product/dsc05973_6a76c062d4ca452bbbfa5b1bab83ef4b_master.png',
+            'https://product.hstatic.net/200000312481/product/82e0e6a27c78bc26e569_921da0a1b7ca4fadab1b39347286e2ee_master.jpg',
+            'https://www.upsieutoc.com/images/2020/07/18/img4.jpg',
+        ],
         status: 'active',
         email: '1snow@gmail.commmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm',
         categoty_id: 123,
@@ -26,7 +32,13 @@ export const Data = [
     {
         id: 2,
         name: 'Jamie Lannister',
-        img: 'https://imprices.pexels.com/photos/1820770/pexels-photo-1820770.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500',
+        // img: 'https://imprices.pexels.com/photos/1820770/pexels-photo-1820770.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500',
+        images: [
+            'https://product.hstatic.net/200000445353/product/ork401-2_0968602092d54d108e8922ef3137fd54_master.jpg',
+            'https://product.hstatic.net/200000312481/product/dsc05973_6a76c062d4ca452bbbfa5b1bab83ef4b_master.png',
+            'https://product.hstatic.net/200000312481/product/82e0e6a27c78bc26e569_921da0a1b7ca4fadab1b39347286e2ee_master.jpg',
+            'https://www.upsieutoc.com/images/2020/07/18/img4.jpg',
+        ],
         email: '2snow@gmail.com',
         status: 'passive',
         price: 42,
@@ -41,7 +53,13 @@ export const Data = [
     {
         id: 3,
         name: 'Lannister',
-        img: 'https://imprices.pexels.com/photos/1820770/pexels-photo-1820770.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500',
+        // img: 'https://imprices.pexels.com/photos/1820770/pexels-photo-1820770.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500',
+        images: [
+            'https://product.hstatic.net/200000445353/product/ork401-2_0968602092d54d108e8922ef3137fd54_master.jpg',
+            'https://product.hstatic.net/200000312481/product/dsc05973_6a76c062d4ca452bbbfa5b1bab83ef4b_master.png',
+            'https://product.hstatic.net/200000312481/product/82e0e6a27c78bc26e569_921da0a1b7ca4fadab1b39347286e2ee_master.jpg',
+            'https://www.upsieutoc.com/images/2020/07/18/img4.jpg',
+        ],
         email: '3snow@gmail.com',
         status: 'pending',
         price: 45,
@@ -56,7 +74,13 @@ export const Data = [
     {
         id: 4,
         name: 'Stark',
-        img: 'https://imprices.pexels.com/photos/1820770/pexels-photo-1820770.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500',
+        // img: 'https://imprices.pexels.com/photos/1820770/pexels-photo-1820770.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500',
+        images: [
+            'https://product.hstatic.net/200000445353/product/ork401-2_0968602092d54d108e8922ef3137fd54_master.jpg',
+            'https://product.hstatic.net/200000312481/product/dsc05973_6a76c062d4ca452bbbfa5b1bab83ef4b_master.png',
+            'https://product.hstatic.net/200000312481/product/82e0e6a27c78bc26e569_921da0a1b7ca4fadab1b39347286e2ee_master.jpg',
+            'https://www.upsieutoc.com/images/2020/07/18/img4.jpg',
+        ],
         email: '4snow@gmail.com',
         status: 'active',
         price: 16,
@@ -242,7 +266,11 @@ const Product = () => {
             headerClassName: 'super-app-theme--header',
             headerAlign: 'center',
             renderCell: (params) => {
-                return <div className={`cellWithStatus ${params.row.status}`}>{params.row.status}</div>;
+                return (
+                    <div className={cx(`cellWithStatus`)}>
+                        <div className={cx(`${params.row.status}`)}>{params.row.status}</div>
+                    </div>
+                );
             },
         },
     ];

@@ -1,12 +1,14 @@
 import classNames from 'classnames/bind';
 import styles from './Shop.module.scss';
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
+import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { NavLink } from 'react-router-dom';
 import config from '~/Components/config';
 import { DataContext } from '~/pages/Cart/DataProvider';
 import TabTitle from '~/Components/config/TabTitle';
 import Pagination from '~/Components/pagination/Pagination';
+
 export default function Shop() {
     TabTitle('Shop');
 
@@ -16,6 +18,19 @@ export default function Shop() {
     const addCart = value.addCart;
     const cx = classNames.bind(styles);
 
+    // const [posts, setPosts] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [postsPerPage] = useState(3);
+
+    const indexOfLastPost = currentPage * postsPerPage;
+    const indexOfFirstPost = indexOfLastPost - postsPerPage;
+    const currentPosts = products.slice(indexOfFirstPost, indexOfLastPost);
+
+    const paginate = (pageNumber) => setCurrentPage(pageNumber);
+    if (loading) {
+        return <h2>Loading...</h2>;
+    }
     return (
         <>
             <div className={cx('header')}>
@@ -42,11 +57,11 @@ export default function Shop() {
                                                 <ul class="tree-menu">
                                                     {collects.map((collect) => {
                                                         return (
-                                                            <li class="active" key={collect.id}>
+                                                            <li className={cx('active1')} key={collect.id}>
                                                                 <span></span>
                                                                 <NavLink
-                                                                    className={(nav) => ({ active: nav.isActive })}
                                                                     to={`${collect.link}`}
+                                                                    activeClassName={cx('active')}
                                                                 >
                                                                     {collect.title}
                                                                 </NavLink>
@@ -62,7 +77,7 @@ export default function Shop() {
                             {/* col-xl-3 col-lg-4 col-md-9 */}
                             <div class="col-xl-10 col-sm-12 col-xs-12">
                                 <div className={cx('row')}>
-                                    {products.map((product) => {
+                                    {currentPosts.map((product) => {
                                         return (
                                             <div
                                                 className={cx('col-xl-3 col-lg-3 col-md-3 product-item card')}
@@ -98,7 +113,7 @@ export default function Shop() {
                                     })}
                                 </div>
                             </div>
-                            <Pagination />;
+                            <Pagination postsPerPage={postsPerPage} totalPosts={products.length} paginate={paginate} />
                         </div>
                     </div>
                 </section>

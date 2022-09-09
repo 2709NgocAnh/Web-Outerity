@@ -16,8 +16,6 @@ const EditUser = () => {
 
     const users = userRows.filter((userRow) => {
         return userRow.id == id;
-        
-
     });
 
     const typeAdmin = [
@@ -99,7 +97,7 @@ const EditUser = () => {
         <div className={cx('new')}>
             <div className={cx('newContainer')}>
                 <div className={cx('top')}>
-                    <h1>Thêm thành viên</h1>
+                    <h1>Chỉnh sửa thông tin</h1>
                 </div>
                 <div className={cx('bottom')}>
                     <div className={cx('left')}>

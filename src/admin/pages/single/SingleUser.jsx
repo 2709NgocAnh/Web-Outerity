@@ -9,8 +9,6 @@ function SingleUser() {
     const { id } = useParams();
 
     const users = userRows.filter((userRow) => {
-        console.log('userRow', typeof userRow.id);
-        console.log('userRow', typeof id);
         return userRow.id == id;
     });
 
@@ -29,7 +27,9 @@ function SingleUser() {
                                     >
                                         <div className={cx('editButton')}>Edit</div>
                                     </NavLink>
-                                    <img src={userRow.img} alt="" className={cx('itemImg')} />
+                                    <div className={cx('itemImg')}>
+                                        <img src={userRow.img} alt="" className={cx('itemImg--user')} />
+                                    </div>
 
                                     <div className={cx('details')}>
                                         <h1 className={cx('title')}>{userRow.username}</h1>

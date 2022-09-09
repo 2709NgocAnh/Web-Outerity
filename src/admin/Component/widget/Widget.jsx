@@ -33,6 +33,8 @@ const Widget = ({ type }) => {
         case 'order':
             data = {
                 title: 'ORDERS',
+                to: 'order',
+
                 isMoney: false,
                 link: 'View all orders',
                 icon: (
@@ -49,8 +51,10 @@ const Widget = ({ type }) => {
         case 'product':
             data = {
                 title: 'PRODUCT',
+                to: 'product',
+
                 isMoney: true,
-                link: 'View net earnings',
+                link: 'View net product',
                 icon: (
                     <MonetizationOnOutlinedIcon
                         className="icon"
@@ -62,8 +66,10 @@ const Widget = ({ type }) => {
         case 'category':
             data = {
                 title: 'CATEGORY',
+                to: 'category',
+
                 isMoney: true,
-                link: 'See details',
+                link: 'See category',
                 icon: (
                     <AccountBalanceWalletOutlinedIcon
                         className="icon"
