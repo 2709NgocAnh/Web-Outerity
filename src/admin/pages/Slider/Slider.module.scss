@@ -1,16 +1,7 @@
-.list {
-    display: flex;
-    width: 100%;
-    .listContainer {
-        flex: 6;
-        font-size: 1.4rem;
-    }
-}
-
 .datatable {
     height: 600px;
     padding: 30px;
-    font-size: 2rem;
+    font-size: 1.4rem;
 
     .datatableTitle {
         width: 100%;
@@ -34,27 +25,26 @@
             border: 1px solid green;
             padding: 5px;
             border-radius: 5px;
-
             cursor: pointer;
             &:hover {
                 background-position: left bottom;
                 color: white;
+               
             }
         }
     }
     .datagrid {
         font-size: 1.4rem;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        text-align: center;
     }
     .cellWithImg {
         display: flex;
         align-items: center;
         font-size: 1.4rem;
+
         .cellImg {
-            width: 40px;
-            height: 40px;
-            /* border-radius: 50%; */
+            width: 50px;
+            height: 32px;
+            /*  border-radius: 50%; */
             object-fit: cover;
             margin-right: 20px;
         }
@@ -89,18 +79,14 @@
             color: darkblue;
             border: 1px dotted rgba(0, 0, 139, 0.596);
             cursor: pointer;
-            width: 70px;
-            text-align: center;
         }
 
         .deleteButton {
-            padding: 4px 7px;
+            padding: 2px 5px;
             border-radius: 5px;
             color: crimson;
             border: 1px dotted rgba(220, 20, 60, 0.6);
             cursor: pointer;
-            width: 70px;
-            text-align: center;
         }
     }
 }

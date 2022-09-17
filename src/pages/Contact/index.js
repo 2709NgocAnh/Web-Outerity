@@ -6,9 +6,15 @@ import '~/pages/Contact/StarRate/StarRate.scss';
 import TabTitle from '~/Components/config/TabTitle';
 import { NavLink } from 'react-router-dom';
 import config from '~/Components/config';
+import { useState, useContext, useEffect } from 'react';
+import { DataContext } from '~/pages/Cart/DataProvider';
+import axios from 'axios';
+import Cookies from 'js-cookie';
+
 function Contact() {
     TabTitle('Contact');
     const cx = classNames.bind(styles);
+
     return (
         <>
             <div className={cx('wrap')}>

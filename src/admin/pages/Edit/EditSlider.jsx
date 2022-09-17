@@ -1,90 +1,78 @@
 import classNames from 'classnames/bind';
-import styles from './NewUser.module.scss';
-import { useEffect, useState, useContext } from 'react';
-import { Link } from 'react-router-dom';
+import styles from '~/admin/pages/new/NewUser.module.scss';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import DriveFolderUploadOutlinedIcon from '@mui/icons-material/DriveFolderUploadOutlined';
+import { useEffect, useState, useContext } from 'react';
+import { Link, useParams } from 'react-router-dom';
 import { DataContext } from '../../../pages/Cart/DataProvider';
-const NewUser = () => {
+const EditSlider = () => {
     const cx = classNames.bind(styles);
     const value = useContext(DataContext);
-    const [type, setType] = useState(1);
-    const [address, setAddress] = useState('');
+    const { id } = useParams();
     const [focused, setFocused] = useState(false);
-    const typeAdmin = [
-        { id: 1, type: 'admin', name: 'type_id' },
-        { id: 2, type: 'user', name: 'type_id' },
+    const [active, setActive] = useState(1);
+    const typeActive = [
+        { id: 1, type: 'Đang hoạt động', name: 'active' },
+        { id: 2, type: 'Tạm dừng', name: 'active' },
     ];
     const [values, setValues] = useState({
         name: '',
-        email: '',
-        avatar: '',
-        phone: '',
-        password: '',
-        password_confirm: '',
+        link: '',
+        image: '',
     });
 
     const userInputs = [
         {
             id: 1,
             name: 'name',
-            label: 'Username',
+            label: 'Tên slide',
             type: 'text',
-            placeholder: 'john_doe',
+            /* placeholder: 'john_doe', */
             pattern: '^[[A-Z]|[a-z]][[A-Z]|[a-z]|\\d|[_]]{7,29}$',
-            err: 'hãy nhập tên',
+            err: 'Hãy nhập tên slider',
             required: true,
         },
         {
             id: 2,
-            name: 'email',
-            label: 'Email',
+            name: 'image',
+            label: 'Link Ảnh',
             type: 'mail',
-            placeholder: 'john_doe@gmail.com',
-            pattern: '^[[A-Z]|[a-z]][[A-Z]|[a-z]|\\d|[_]]{7,29}$',
-            err: 'hãy nhập đúng định dạng của mail',
+            /*   placeholder: 'john_doe@gmail.com',
+            pattern: '^[[A-Z]|[a-z]][[A-Z]|[a-z]|\\d|[_]]{7,29}$', */
+            err: 'Hãy nhập link ảnh background',
 
             required: true,
         },
         {
             id: 3,
-            name: 'avatar',
-            label: 'Avatar',
+            name: 'link',
+            label: 'Link liên kết',
             type: 'text',
             placeholder: '',
-            err: 'hãy nhập link ảnh đại diện',
+            err: 'Hãy nhập link liên kết',
             required: false,
-        },
-        {
-            id: 4,
-            name: 'phone',
-            label: 'Phone',
-            type: 'tel',
-            placeholder: '+1 234 567 89',
-            pattern: '^[0-9]{10,11}$',
-            err: 'hãy nhập số điện thoại',
-            required: false,
-        },
-        {
-            id: 5,
-            name: 'password',
-            label: 'Password',
-            type: 'password',
-            pattern: `^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{5,20}$`,
-            err: 'hãy nhập password',
-            required: true,
-        },
-        {
-            id: 6,
-            name: 'password_confirm',
-            label: 'Confirm password',
-            type: 'password',
-            reps: values.password,
-            err: 'Mật khẩu không khớp',
-            required: true,
         },
     ];
+    useEffect(() => {
+        const aaa = async () => {
+            const data = await axios.get(`http://localhost:8080/tttn_be/public/api/slider/${id}`);
+            return data;
+        };
+        aaa()
+            .then((response) => {
+                setActive(response.data.slider.active);
+                setValues({
+                    name: response.data.slider.name,
+                    link: response.data.slider.link,
+                    image: response.data.slider.image,
+                });
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }, [id]);
+
     const onChange = (e) => {
         setValues({ ...values, [e.target.name]: e.target.value });
     };
@@ -94,10 +82,11 @@ const NewUser = () => {
     };
     const handleSubmit = (e) => {
         e.preventDefault();
+
         axios
             .post(
-                'http://localhost:8080/tttn_be/public/api/user/registeradmin',
-                { ...values, address, type_id: type },
+                `http://localhost:8080/tttn_be/public/api/slider/edit/${id}`,
+                { ...values, active },
                 {
                     headers: {
                         Authorization: `Bearer ${Cookies.get('accessToken')}`,
@@ -108,19 +97,11 @@ const NewUser = () => {
                 alert(response.data.message);
                 console.log(response.data.error);
                 if (response.data.result) {
-                    setValues({
-                        name: '',
-                        email: '',
-                        avatar: '',
-                        phone: '',
-                        password: '',
-                        password_confirm: '',
-                    });
-                    window.location.href = 'http://localhost:3000/users';
+                    window.location.href = 'http://localhost:3000/sliders';
                 }
             })
             .catch(function (error) {
-                alert(error);
+                alert(error.response.data.message);
                 console.log(error);
             });
     };
@@ -129,17 +110,22 @@ const NewUser = () => {
         <div className={cx('new')}>
             <div className={cx('newContainer')}>
                 <div className={cx('top')}>
-                    <h1>Thêm thành viên</h1>
+                    <h1>Cập nhật slider</h1>
                 </div>
                 <div className={cx('bottom')}>
                     <div className={cx('left')}>
                         <img
+                            style={{
+                                width: '340px',
+                                height: '240px',
+                                borderRadius: 'inherit',
+                            }}
                             src={
-                                values.avatar
-                                    ? values.avatar
+                                values.image
+                                    ? values.image
                                     : 'https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg'
                             }
-                            alt="Avatar"
+                            alt="ảnh slide"
                         />
                     </div>
                     <div className={cx('right')}>
@@ -162,31 +148,18 @@ const NewUser = () => {
                                     <span className={cx('err')}>{input.err}</span>
                                 </div>
                             ))}
-                            <div className={cx('formInput-desc')}>
-                                <label>Địa chỉ</label>
-                                <textarea
-                                    rows="2"
-                                    cols="50"
-                                    onChange={(e) => {
-                                        setAddress(e.target.value);
-                                    }}
-                                >
-                                    {address}
-                                </textarea>
-                            </div>
-                            {typeAdmin.map((input) => (
+                            {typeActive.map((input) => (
                                 <div className={cx('formRadio')} key={input.id}>
                                     <input
                                         type="radio"
                                         name={input.name}
-                                        onClick={(e) => setType(input.id)}
-                                        checked={input.id == type ? true : false}
+                                        onClick={(e) => setActive(input.id)}
+                                        checked={active == input.id ? true : false}
                                     />
                                     <label>{input.type}</label>
                                 </div>
                             ))}
-
-                            <button className={cx('link')}>Tạo</button>
+                            <button className={cx('link')}>Lưu chỉnh sửa</button>
                         </form>
                     </div>
                 </div>
@@ -195,4 +168,4 @@ const NewUser = () => {
     );
 };
 
-export default NewUser;
+export default EditSlider;

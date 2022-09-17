@@ -1,4 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+import Cookies from 'js-cookie';
 import './navbar.scss';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import LanguageOutlinedIcon from '@mui/icons-material/LanguageOutlined';
@@ -8,16 +10,42 @@ import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNone
 import ChatBubbleOutlineOutlinedIcon from '@mui/icons-material/ChatBubbleOutlineOutlined';
 import ListOutlinedIcon from '@mui/icons-material/ListOutlined';
 import { NavLink } from 'react-router-dom';
-import config from '~/Components/config';
+/* import config from '~/Components/config'; */
 // import { DarkModeContext } from '../../context/darkModeContext';
 // import { useContext } from 'react';
 
 const Navbar = () => {
+    const [auth, setAuth] = useState(true);
+    const [authtype, setAuthtype] = useState(1);
+    const [profile, setProfile] = useState();
+
+    useEffect(() => {
+        axios
+            .get(`http://localhost:8080/tttn_be/public/api/user/profile`, {
+                headers: {
+                    Authorization: `Bearer ${Cookies.get('accessToken')}`,
+                },
+            })
+            .then((response) => {
+                setAuth(response.data.result);
+                setProfile(response.data.user);
+                setAuthtype(response.data.user.type_id);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }, []);
+    useEffect(() => {
+        if (!auth || authtype != 1) {
+            window.location.href = 'http://localhost:3000/register';
+        }
+    }, [auth, authtype]);
+
     return (
         <div className="navbar">
             <div className="wrapper">
                 <div className="logo">
-                    <NavLink to={config.routes.admin}>
+                    <NavLink to={'/list'}>
                         <img
                             height="50px"
                             width="100px"
@@ -36,14 +64,14 @@ const Navbar = () => {
                     </button>
                 </div>
                 <div className="items">
-                    <div className="item">
+                    {/* <div className="item">
                         <LanguageOutlinedIcon className="icon" />
                         English
-                    </div>
+                    </div> */}
                     {/* <div className="item">
                         <DarkModeOutlinedIcon className="icon" onClick={() => dispatch({ type: 'TOGGLE' })} /> */}
                     {/* </div> */}
-                    <div className="item">
+                    {/* <div className="item">
                         <FullscreenExitOutlinedIcon className="icon" />
                     </div>
                     <div className="item">
@@ -56,13 +84,12 @@ const Navbar = () => {
                     </div>
                     <div className="item">
                         <ListOutlinedIcon className="icon" />
+                    </div> */}
+                    <div className="item">
+                        <img src={profile?.avatar} alt="avatar" className="avatar" />
                     </div>
                     <div className="item">
-                        <img
-                            src="https://images.pexels.com/photos/941693/pexels-photo-941693.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
-                            alt=""
-                            className="avatar"
-                        />
+                        <h5>{profile?.name}</h5>
                     </div>
                 </div>
             </div>

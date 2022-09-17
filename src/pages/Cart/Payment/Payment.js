@@ -1,4 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
+import axios from 'axios';
+import Cookies from 'js-cookie';
 // import classNames from 'className/bind';
 import './Payment.scss';
 // import '../Cart.module.scss';
@@ -7,31 +9,66 @@ import config from '~/Components/config';
 import { NavLink } from 'react-router-dom';
 import TabTitle from '~/Components/config/TabTitle';
 export default function Payment() {
-    TabTitle('Payment');
+    TabTitle('Thanh toán');
     // const cx = classNames.bind(styles);
     const value = useContext(DataContext);
-    const [name, setName] = useState('');
+    const [fullname, setFullname] = useState('');
     const [phone, setPhone] = useState('');
+    const [email, setEmail] = useState('');
     const [address, setAddress] = useState('');
+    const [note, setNote] = useState('');
 
     const [err1, setErr1] = useState('');
     const [err2, setErr2] = useState('');
     const [err3, setErr3] = useState('');
+    const [err4, setErr4] = useState('');
 
     const [f1, setF1] = useState(false);
     const [f2, setF2] = useState(false);
     const [f3, setF3] = useState(false);
+    const [f4, setF4] = useState(false);
 
-    const [cart, setCart] = value.cart;
+    const [cart] = value.cart;
     const [total, setTotal] = useState(0);
+    const [priceall, setPriceall] = useState(0);
+    const [priceShip, setPriceShip] = useState(30000);
+    const [auth, setAuth] = useState(true);
+    const [profile, setProfile] = useState();
 
     useEffect(() => {
-        if (name === '' && f1) {
+        axios
+            .get(`http://localhost:8080/tttn_be/public/api/user/profile`, {
+                headers: {
+                    Authorization: `Bearer ${Cookies.get('accessToken')}`,
+                },
+            })
+            .then((response) => {
+                setAuth(response.data.result);
+                setAddress(response.data.user.address);
+                setEmail(response.data.user.email);
+                setPhone(response.data.user.phone);
+                setFullname(response.data.user.name);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }, []);
+    useEffect(() => {
+        if (!auth) {
+            window.location.href = 'http://localhost:3000/register';
+        }
+    }, [auth]);
+
+    useEffect(() => {
+        setPriceall(total + 30000);
+    }, [total]);
+    useEffect(() => {
+        if (fullname === '' && f1) {
             setErr1('Hãy nhập họ và tên');
         } else {
             setErr1('');
         }
-    }, [f1, name]);
+    }, [f1, fullname]);
     useEffect(() => {
         if (phone === '' && f2) {
             setErr2('Hãy nhập số điện thoại');
@@ -43,22 +80,61 @@ export default function Payment() {
         }
     }, [address, f3]);
     useEffect(() => {
+        if (email === '' && f4) {
+            setErr4('Hãy nhập email');
+        }
+    }, [email, f4]);
+    useEffect(() => {
         const getTotal = () => {
-            const res = cart.reduce((prev, item) => {
-                return prev + item.price * item.count;
+            const res = cart.reduce((total, item) => {
+                return total + item.price_sale * item.cartNum;
             }, 0);
             setTotal(res);
         };
         getTotal();
     }, [cart]);
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        console.log('huhu');
+        axios
+            .post(
+                'http://localhost:8080/tttn_be/public/api/order/add',
+                {
+                    email,
+                    note,
+                    address,
+                    phone,
+                    fullname,
+                    cart,
+                    price_al: priceall,
+                    price_product: total,
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${Cookies.get('accessToken')}`,
+                    },
+                },
+            )
 
+            .then(function (response) {
+                if (response.data.result) {
+                    alert(response.data.message);
+                    localStorage.removeItem('cart');
+                    window.location.href = 'http://localhost:3000/list';
+                }
+            })
+            .catch(function (error) {
+                alert(error.response.data.message);
+                console.log(error);
+            });
+    };
     return (
         <>
             <div className="row wrap">
                 <div className="col-md-6 col-sm-12 col-xs-12">
                     <div className="main">
                         <div className="main-header">
-                            <a href="/" className="logo">
+                            <a href="/list" className="logo">
                                 <h1 className="logo-text">Outerity</h1>
                             </a>
 
@@ -80,15 +156,6 @@ export default function Payment() {
                                             <h2 className="section-title">Thông tin giao hàng</h2>
                                         </div>
                                         <div className="section-content section-customer-information no-mb">
-                                            <ul className="breadcrumb">
-                                                <li className="breadcrumb-item breadcrumb-item-current">
-                                                    Bạn đã có tài khoản?
-                                                </li>
-                                                <li className="breadcrumb-item breadcrumb-item-current">
-                                                    <NavLink to={config.routes.register}>Đăng nhập</NavLink>
-                                                </li>
-                                            </ul>
-
                                             <div className="fieldset">
                                                 <div className="field field-required  ">
                                                     <div className="field-input-wrapper">
@@ -104,10 +171,10 @@ export default function Payment() {
                                                             type="text"
                                                             required
                                                             onChange={(e) => {
-                                                                setName(e.target.value);
+                                                                setFullname(e.target.value);
                                                                 setF1(true);
                                                             }}
-                                                            value={name}
+                                                            value={fullname}
                                                         />
                                                         <span>{err1}</span>
                                                     </div>
@@ -127,8 +194,15 @@ export default function Payment() {
                                                             size="30"
                                                             type="email"
                                                             id="checkout_user_email"
+                                                            required
                                                             name="email"
+                                                            onChange={(e) => {
+                                                                setEmail(e.target.value);
+                                                                setF4(true);
+                                                            }}
+                                                            value={email}
                                                         />
+                                                        <span>{err4}</span>
                                                     </div>
                                                 </div>
 
@@ -162,18 +236,17 @@ export default function Payment() {
                                         <div className="section-content">
                                             <div className="fieldset">
                                                 <form
+                                                    onSubmit={handleSubmit}
                                                     autocomplete="off"
                                                     id="form_update_shipping_method"
                                                     className="field default"
                                                     accept-charset="UTF-8"
-                                                    method="post"
                                                 >
                                                     <div
                                                         id="form_update_location_customer_shipping"
                                                         className="order-checkout__loading radio-wrapper content-box-row content-box-row-padding content-box-row-secondary "
                                                         for="customer_pick_at_location_false"
                                                     >
-                                                        <input name="utf8" type="hidden" value="✓" />
                                                         <div className="field-input-wrapper">
                                                             <label
                                                                 className="field-label"
@@ -199,83 +272,32 @@ export default function Payment() {
                                                             <span>{err3}</span>
                                                         </div>
                                                     </div>
-
-                                                    <input
-                                                        name="selected_customer_shipping_country"
-                                                        type="hidden"
-                                                        value=""
-                                                    />
-                                                    <input
-                                                        name="selected_customer_shipping_province"
-                                                        type="hidden"
-                                                        value=""
-                                                    />
-                                                    <input
-                                                        name="selected_customer_shipping_district"
-                                                        type="hidden"
-                                                        value=""
-                                                    />
-                                                    <input
-                                                        name="selected_customer_shipping_ward"
-                                                        type="hidden"
-                                                        value=""
-                                                    />
-
-                                                    <div className="field field-show-floating-label field-required field-third ">
-                                                        <div className="field-input-wrapper field-input-wrapper-select">
+                                                    <div
+                                                        id="form_update_location_customer_shipping"
+                                                        className="order-checkout__loading radio-wrapper content-box-row content-box-row-padding content-box-row-secondary "
+                                                        for="customer_pick_at_location_false"
+                                                    >
+                                                        <div className="field-input-wrapper">
                                                             <label
                                                                 className="field-label"
-                                                                for="customer_shipping_province"
+                                                                for="billing_address_address1"
                                                             >
-                                                                {' '}
-                                                                Tỉnh / thành{' '}
+                                                                Chú Thích
                                                             </label>
-                                                            <select
+                                                            <textarea
+                                                                placeholder="Chú thích"
+                                                                autocapitalize="off"
+                                                                spellcheck="false"
                                                                 className="field-input"
-                                                                id="customer_shipping_district"
-                                                                name="customer_shipping_district"
-                                                            >
-                                                                <option data-code="null" value="null" selected="">
-                                                                    Chọn Tỉnh / thành{' '}
-                                                                </option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-
-                                                    <div className="field field-show-floating-label field-required field-third ">
-                                                        <div className="field-input-wrapper field-input-wrapper-select">
-                                                            <label
-                                                                className="field-label"
-                                                                for="customer_shipping_district"
-                                                            >
-                                                                Quận / huyện
-                                                            </label>
-                                                            <select
-                                                                className="field-input"
-                                                                id="customer_shipping_district"
-                                                                name="customer_shipping_district"
-                                                            >
-                                                                <option data-code="null" value="null" selected="">
-                                                                    Chọn quận / huyện
-                                                                </option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-
-                                                    <div className="field field-show-floating-label field-required  field-third  ">
-                                                        <div className="field-input-wrapper field-input-wrapper-select">
-                                                            <label className="field-label" for="customer_shipping_ward">
-                                                                Phường / xã
-                                                            </label>
-                                                            <select
-                                                                className="field-input"
-                                                                id="customer_shipping_ward"
-                                                                name="customer_shipping_ward"
-                                                            >
-                                                                <option data-code="null" value="null" selected="">
-                                                                    Chọn phường / xã
-                                                                </option>
-                                                            </select>
+                                                                size="30"
+                                                                type="text"
+                                                                id="billing_address_address1"
+                                                                name="billing_address[address1]"
+                                                                onChange={(e) => {
+                                                                    setNote(e.target.value);
+                                                                }}
+                                                                value={note}
+                                                            />
                                                         </div>
                                                     </div>
                                                 </form>
@@ -314,10 +336,6 @@ export default function Payment() {
                                                                         <span className="radio-label-primary">
                                                                             Thanh toán khi giao hàng (COD)
                                                                         </span>
-                                                                        <span className="quick-tagline hidden"></span>
-                                                                        <span className="quick-tagline  hidden ">
-                                                                            Buy Now, Pay Later
-                                                                        </span>
                                                                     </div>
                                                                 </div>
                                                             </label>
@@ -329,13 +347,12 @@ export default function Payment() {
                                     </div>
                                 </div>
                                 <div className="step-footer">
-                                    <form id="form_next_step" accept-charset="UTF-8" method="post">
-                                        <input name="utf8" type="hidden" value="✓" />
-                                        <button type="submit" className="step-footer-continue-btn btn">
+                                    <div id="form_next_step" accept-charset="UTF-8">
+                                        <button onClick={handleSubmit} className="step-footer-continue-btn btn">
                                             <span className="btn-content">Hoàn tất đơn hàng</span>
                                             <i className="btn-spinner icon icon-button-spinner"></i>
                                         </button>
-                                    </form>
+                                    </div>
                                     <NavLink to={config.routes.cart}>Giỏ hàng</NavLink>
                                 </div>
                             </div>
@@ -345,7 +362,7 @@ export default function Payment() {
 
                 <div className="col-md-6 col-sm-12 col-xs-12">
                     {cart.map((item) => (
-                        <div key={item._id}>
+                        <div key={item.id}>
                             <div className="sidebar">
                                 <div className="sidebar-content">
                                     <div className="order-summary order-summary-is-collapsed">
@@ -363,33 +380,60 @@ export default function Payment() {
                                                                     <div className="product-thumbnail-wrapper">
                                                                         <img
                                                                             className="product-thumbnail-image"
-                                                                            alt={item.title}
-                                                                            src={item.images[0]}
+                                                                            alt={item.name}
+                                                                            src={item.image}
                                                                         />
                                                                     </div>
                                                                     <span
                                                                         className="product-thumbnail-quantity"
                                                                         aria-hidden="true"
                                                                     >
-                                                                        {item.count}
+                                                                        {item.cartNum}
                                                                     </span>
                                                                 </div>
                                                             </td>
                                                             <td className="product-description">
                                                                 <span className="product-description-name order-summary-emphasis">
-                                                                    {item.title}
+                                                                    {item.name}
                                                                 </span>
-
-                                                                <span className="product-description-variant order-summary-small-text">
-                                                                    S
-                                                                </span>
+                                                                {item.price_sale != null ? (
+                                                                    <>
+                                                                        <del>
+                                                                            <span className="product-description-name order-summary-emphasis">
+                                                                                {item.price.toLocaleString('it-IT', {
+                                                                                    style: 'currency',
+                                                                                    currency: 'VND',
+                                                                                })}
+                                                                            </span>
+                                                                        </del>
+                                                                        <span className="product-description-name order-summary-emphasis">
+                                                                            {item.price_sale.toLocaleString('it-IT', {
+                                                                                style: 'currency',
+                                                                                currency: 'VND',
+                                                                            })}
+                                                                        </span>
+                                                                    </>
+                                                                ) : (
+                                                                    <span className="product-description-name order-summary-emphasis">
+                                                                        {item.price.toLocaleString('it-IT', {
+                                                                            style: 'currency',
+                                                                            currency: 'VND',
+                                                                        })}
+                                                                    </span>
+                                                                )}
                                                             </td>
                                                             <td className="product-quantity visually-hidden">
-                                                                {item.count}
+                                                                {item.cartNum}
                                                             </td>
                                                             <td className="product-price">
                                                                 <span className="order-summary-emphasis">
-                                                                    {item.price * item.count}.000 VND
+                                                                    {(item.price_sale * item.cartNum).toLocaleString(
+                                                                        'it-IT',
+                                                                        {
+                                                                            style: 'currency',
+                                                                            currency: 'VND',
+                                                                        },
+                                                                    )}
                                                                 </span>
                                                             </td>
                                                         </tr>
@@ -404,45 +448,6 @@ export default function Payment() {
                     ))}
                     <div className="sidebar ">
                         <div className="sidebar-content">
-                            <div
-                                className="order-summary-section order-summary-section-discount"
-                                data-order-summary-section="discount"
-                            >
-                                <form id="form_discount_add" accept-charset="UTF-8" method="post">
-                                    <input name="utf8" type="hidden" value="✓" />
-                                    <div className="fieldset">
-                                        <div className="field  ">
-                                            <div className="field-input-btn-wrapper">
-                                                <div className="field-input-wrapper field-two-thirds ">
-                                                    <label className="field-label" for="discount.code">
-                                                        Mã giảm giá
-                                                    </label>
-                                                    <input
-                                                        placeholder="Mã giảm giá"
-                                                        className="field-input"
-                                                        data-discount-field="true"
-                                                        autocomplete="false"
-                                                        autocapitalize="off"
-                                                        spellcheck="false"
-                                                        size="30"
-                                                        type="text"
-                                                        id="discount.code"
-                                                        name="discount.code"
-                                                        value=""
-                                                    />
-                                                </div>
-                                                <button
-                                                    type="submit"
-                                                    className="field-input-btn btn btn-default btn-disabled"
-                                                >
-                                                    <span className="field field-required field-third">Sử dụng</span>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-
                             <div
                                 className="order-summary-section order-summary-section-total-lines payment-lines"
                                 data-order-summary-section="payment-lines"
@@ -462,7 +467,13 @@ export default function Payment() {
                                         <tr className="total-line total-line-subtotal">
                                             <td className="total-line-name">Tạm tính</td>
                                             <td className="total-line-price">
-                                                <span className="order-summary-emphasis">{total}.000 VND</span>
+                                                <span className="order-summary-emphasis">
+                                                    {' '}
+                                                    {total.toLocaleString('it-IT', {
+                                                        style: 'currency',
+                                                        currency: 'VND',
+                                                    })}
+                                                </span>
                                             </td>
                                         </tr>
 
@@ -473,7 +484,10 @@ export default function Payment() {
                                                     className="order-summary-emphasis"
                                                     data-checkout-total-shipping-target="0"
                                                 >
-                                                    —
+                                                    {priceShip.toLocaleString('it-IT', {
+                                                        style: 'currency',
+                                                        currency: 'VND',
+                                                    })}
                                                 </span>
                                             </td>
                                         </tr>
@@ -481,14 +495,17 @@ export default function Payment() {
                                     <tfoot className="total-line-table-footer">
                                         <tr className="total-line">
                                             <td className="total-line-name payment-due-label">
-                                                <span className="payment-due-label-total">Tổng cộng</span>
+                                                <strong className="payment-due-label-total">Tổng cộng</strong>
                                             </td>
                                             <td className="total-line-name payment-due">
                                                 <span
                                                     className="payment-due-price"
                                                     data-checkout-payment-due-target="22500000"
                                                 >
-                                                    {total}.000 VND
+                                                    {priceall.toLocaleString('it-IT', {
+                                                        style: 'currency',
+                                                        currency: 'VND',
+                                                    })}
                                                 </span>
                                                 <span className="checkout_version" data_checkout_version="8"></span>
                                             </td>

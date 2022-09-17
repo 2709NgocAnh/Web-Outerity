@@ -1,7 +1,7 @@
 import { useContext, useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { DataContext } from './DataProvider';
-import classNames from 'classnames/bind';
+/* import classNames from 'classnames/bind'; */
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 
@@ -9,11 +9,11 @@ import 'react-loading-skeleton/dist/skeleton.css';
 import Sizes from './Sizes';
 import Colors from './Colors'; */
 import axios from 'axios';
+import Cookies from 'js-cookie';
 import TabTitle from '~/Components/config/TabTitle';
 import './Details.css';
 import DetailsThumb from './DetailsThumb';
 export default function Details() {
-    TabTitle('/product');
     const { id } = useParams();
     const value = useContext(DataContext);
     const addCart = value.addCart;
@@ -21,8 +21,30 @@ export default function Details() {
     const [productImage, setProductImage] = useState();
     const [index, setIndex] = useState(0);
     const imgDiv = useRef();
+    const [auth, setAuth] = useState(true);
 
-    // console.log(products);
+    useEffect(() => {
+        axios
+            .get(`http://localhost:8080/tttn_be/public/api/user/profile`, {
+                headers: {
+                    Authorization: `Bearer ${Cookies.get('accessToken')}`,
+                },
+            })
+            .then((response) => {
+                setAuth(response.data.result);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }, []);
+    useEffect(() => {
+        if (!auth) {
+            window.location.href = 'http://localhost:3000/register';
+        }
+    }, [auth]);
+
+    TabTitle(current?.name || 'Chi tiết sản phẩm');
+
     const handleMouseMove = (e) => {
         const { left, top, width, height } = e.target.getBoundingClientRect();
         const x = ((e.pageX - left) / width) * 100;
@@ -44,10 +66,6 @@ export default function Details() {
             });
     }, [id]);
 
-    useEffect(() => {
-        console.log(current);
-    }, [current]);
-
     return current ? (
         <div className="details" key={current?.id}>
             <div
@@ -62,13 +80,39 @@ export default function Details() {
 
             <div className="box-details">
                 <h2 title={current?.name}>{current?.name}</h2>
-                <h3>{current?.price} VND</h3>
+                {/*  <h3>{current?.price} VND</h3> */}
+                {current?.price_sale != null ? (
+                    <>
+                        <del>
+                            {' '}
+                            <h3>
+                                {current?.price.toLocaleString('it-IT', {
+                                    style: 'currency',
+                                    currency: 'VND',
+                                })}
+                            </h3>
+                        </del>
+                        <h3>
+                            {current?.price_sale.toLocaleString('it-IT', {
+                                style: 'currency',
+                                currency: 'VND',
+                            })}
+                        </h3>
+                    </>
+                ) : (
+                    <h3>
+                        {current?.price.toLocaleString('it-IT', {
+                            style: 'currency',
+                            currency: 'VND',
+                        })}
+                    </h3>
+                )}
+
                 {/* <Colors colors={current.colors} />
                     <Sizes sizes={current.sizes} /> */}
                 <p>{current?.content}</p>
-                <p>{current?.content}</p>
                 <DetailsThumb productImage={productImage} setIndex={setIndex} />
-                <button className="cart" onClick={() => addCart(current.id)}>
+                <button className="cart" onClick={() => addCart(current, 1)}>
                     Add to cart
                 </button>
             </div>

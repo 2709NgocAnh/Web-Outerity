@@ -1,17 +1,19 @@
 import classNames from 'classnames/bind';
-import styles from './NewProduct.module.scss';
+import styles from '~/admin/pages/new/NewProduct.module.scss';
 import DriveFolderUploadOutlinedIcon from '@mui/icons-material/DriveFolderUploadOutlined';
 import { useState, useEffect, useContext } from 'react';
+import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import { DataContext } from '../../../pages/Cart/DataProvider';
 const NewProduct = () => {
     const cx = classNames.bind(styles);
     const [focused, setFocused] = useState(false);
-
+    const { id } = useParams();
     const [content, setContent] = useState('');
     const [categoryid, setCategoryid] = useState(0);
     const [active, setActive] = useState(1);
-    const [listimage, setListimage] = useState(['', '', '', '']);
+    const [listimage, setListimage] = useState([]);
     const [listcategory, setListcategory] = useState([]);
 
     const arrActive = [
@@ -42,7 +44,7 @@ const NewProduct = () => {
             name: 'num',
             label: 'Số lượng',
             type: 'number',
-            pattern: '^[1-9][0-9]*$',
+            pattern: '^[0-9]$',
             // placeholder: 'xanh ,đỏ,vàng',
             err: 'hãy nhập số lượng sản phẩm',
             require: true,
@@ -122,6 +124,29 @@ const NewProduct = () => {
             require: true,
         },
     ];
+    useEffect(() => {
+        const aaa = async () => {
+            const data = await axios.get(`http://localhost:8080/tttn_be/public/api/product/${id}`);
+            return data;
+        };
+        aaa()
+            .then((response) => {
+                setListimage(response.data.product_images);
+                setContent(response.data.product.content);
+                setActive(response.data.product.active);
+                setCategoryid(response.data.product.category_id);
+                setValues({
+                    name: response.data.product.name,
+                    price: response.data.product.price,
+                    price_sale: response.data.product.price_sale,
+                    image: response.data.product.image,
+                    num: response.data.product.num,
+                });
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }, [id]);
     const onChangeInputs = (e) => {
         setValues({ ...values, [e.target.name]: e.target.value });
     };
@@ -130,14 +155,14 @@ const NewProduct = () => {
         setListimage(listimage);
         console.log(listimage);
     }; */
-    const handleFocus = (e) => {
-        setFocused(true);
-    };
-    useEffect(() => {
+    /*  useEffect(() => {
         if (values.price_sale > values.price) {
             alert('Giá bán khuyến mãi phẻ nhỏ hơn giá gốc ');
         }
-    }, [values]);
+    }, [values]); */
+    const handleFocus = (e) => {
+        setFocused(true);
+    };
     useEffect(() => {
         axios
             .get('http://localhost:8080/tttn_be/public/api/category/listactive', {
@@ -159,13 +184,13 @@ const NewProduct = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log('categoryid', categoryid);
+        /*  console.log('categoryid', categoryid);
         console.log('content', content);
         console.log('values', values);
-        console.log('active', active);
+        console.log('active', active); */
         axios
             .post(
-                'http://localhost:8080/tttn_be/public/api/product/add',
+                `http://localhost:8080/tttn_be/public/api/product/edit/${id}`,
                 { ...values, active, content, category_id: categoryid, listimage },
                 {
                     headers: {
@@ -177,7 +202,7 @@ const NewProduct = () => {
                 alert(response.data.message);
                 console.log(response.data.error);
                 if (response.data.result) {
-                    window.location.href = 'http://localhost:3000/products';
+                    window.location.href = `http://localhost:3000/products/${id}`;
                 }
             })
             .catch(function (error) {
@@ -185,11 +210,12 @@ const NewProduct = () => {
                 console.log(error);
             });
     };
+
     return (
         <div className={cx('new')}>
             <div className={cx('newContainer')}>
                 <div className={cx('top')}>
-                    <h1>Thêm Sản Phẩm</h1>
+                    <h1>Cập nhật thông tin sản phẩm</h1>
                 </div>
                 <div className={cx('bottom')}>
                     <div className={cx('left')}>
@@ -208,7 +234,9 @@ const NewProduct = () => {
                             {listimage.map((img, index) => (
                                 <img
                                     src={
-                                        img ? img : 'https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg'
+                                        img.image
+                                            ? img.image
+                                            : 'https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg'
                                     }
                                     alt="ảnh"
                                     key={index}
@@ -228,7 +256,7 @@ const NewProduct = () => {
                                         onChange={(e) => {
                                             onChangeInputs(e);
                                         }}
-                                        required={input.require}
+                                        required
                                         onBlur={handleFocus}
                                         focused={focused.toString()}
                                         value={values[input.name]}
@@ -248,39 +276,46 @@ const NewProduct = () => {
                                 >
                                     <option value="">Chọn danh mục sản phẩm</option>
                                     {listcategory.map((category) => (
-                                        <option value={category.id}>{category.name}</option>
+                                        <option value={category.id} selected={category.id == categoryid ? true : false}>
+                                            {category.name}
+                                        </option>
                                     ))}
                                 </select>
                             </div>
                             {productImage.map((input) => (
                                 <div className={cx('formInput')} key={input.id}>
-                                    <label for={input.id - 1}>{input.label}</label>
+                                    <label>{input.label}</label>
                                     <input
                                         id={input.id - 1}
                                         type={input.type}
+                                        //placeholder={input.placeholder}
                                         onChange={(e) => {
-                                            listimage[e.target.id] = e.target.value;
+                                            /*  onChangelistImage(e); */
+                                            listimage[e.target.id].image = e.target.value;
                                             setListimage(listimage);
                                             console.log(listimage);
                                         }}
                                         required
                                         onBlur={handleFocus}
                                         focused={focused.toString()}
-                                        value={listimage[input.id - 1]}
+                                        value={listimage[input.id - 1]?.image}
                                     />
+                                    <span className={cx('err')}>{input.err}</span>
                                 </div>
                             ))}
+                            {/* <button>Thêm ảnh</button> */}
 
                             <div className={cx('formInput-content')}>
                                 <label>Nội dung</label>
                                 <textarea
+                                    value={content}
                                     required
                                     rows="4"
                                     cols="50"
                                     onChange={(e) => {
                                         setContent(e.target.value);
                                     }}
-                                ></textarea>
+                                />
                             </div>
 
                             {arrActive.map((input) => (
@@ -294,7 +329,7 @@ const NewProduct = () => {
                                     <label>{input.type}</label>
                                 </div>
                             ))}
-                            <button>Thêm</button>
+                            <button>Cập nhật</button>
                         </form>
                     </div>
                 </div>

@@ -3,133 +3,60 @@ import classNames from 'classnames/bind';
 import Box from '@mui/material/Box';
 import { DataGrid } from '@mui/x-data-grid';
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
-
-export const Data = [
-    {
-        id: 1,
-        name: 'Snow',
-        img: 'https://m.media-amazon.com/images/I/81hH5vK-MCL._AC_UY327_FMwebp_QL65_.jpg',
-        status: 'active',
-        email: '1snow@gmail.commmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm',
-        categoty_id: 123,
-        content: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaaaaaaa bbbbbbbbbbbbbbbbbbbbbbbbbb',
-        price: 35,
-        price_sale: 24,
-        num: 12,
-        num_buy: 10,
-        created_at: 24 / 12 / 2022,
-        updated_at: 25 / 12 / 2022,
-        created_by: 'ngoc anh',
-        updated_by: 'ngoc anh',
-    },
-    {
-        id: 2,
-        name: 'Jamie Lannister',
-        img: 'https://imprices.pexels.com/photos/1820770/pexels-photo-1820770.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500',
-        email: '2snow@gmail.com',
-        status: 'passive',
-        price: 42,
-        price_sale: 24,
-        num: 12,
-        num_buy: 10,
-        created_at: 24 / 12 / 2022,
-        updated_at: 25 / 12 / 2022,
-        created_by: 'ngoc anh',
-        updated_by: 'ngoc anh',
-    },
-    {
-        id: 3,
-        name: 'Lannister',
-        img: 'https://imprices.pexels.com/photos/1820770/pexels-photo-1820770.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500',
-        email: '3snow@gmail.com',
-        status: 'pending',
-        price: 45,
-        price_sale: 24,
-        num: 12,
-        num_buy: 10,
-        created_at: 24 - 12 - 2022,
-        updated_at: 25 / 12 / 2022,
-        created_by: 'ngoc anh',
-        updated_by: 'ngoc anh',
-    },
-    {
-        id: 4,
-        name: 'Stark',
-        img: 'https://imprices.pexels.com/photos/1820770/pexels-photo-1820770.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500',
-        email: '4snow@gmail.com',
-        status: 'active',
-        price: 16,
-        price_sale: 24,
-        num: 12,
-        num_buy: 10,
-        created_at: 24 / 12 / 2022,
-        updated_at: 25 / 12 / 2022,
-        created_by: 'ngoc anh',
-        updated_by: 'ngoc anh',
-    },
-    {
-        id: 5,
-        name: 'Targaryen',
-        img: 'https://imprices.pexels.com/photos/1820770/pexels-photo-1820770.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500',
-        email: '5snow@gmail.com',
-        status: 'passive',
-        price: 22,
-        price_sale: 24,
-        num: 12,
-        num_buy: 10,
-        created_at: 24 / 12 / 2022,
-        updated_at: 25 / 12 / 2022,
-        created_by: 'ngoc anh',
-        updated_by: 'ngoc anh',
-    },
-    {
-        id: 6,
-        name: 'Melisandre',
-        img: 'https://imprices.pexels.com/photos/1820770/pexels-photo-1820770.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500',
-        email: '6snow@gmail.com',
-        status: 'active',
-        price: 15,
-    },
-    {
-        id: 7,
-        name: 'Clifford',
-        img: 'https://imprices.pexels.com/photos/1820770/pexels-photo-1820770.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500',
-        email: '7snow@gmail.com',
-        status: 'passive',
-        price: 44,
-    },
-    {
-        id: 8,
-        name: 'Frances',
-        img: 'https://imprices.pexels.com/photos/1820770/pexels-photo-1820770.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500',
-        email: '8snow@gmail.com',
-        status: 'active',
-        price: 36,
-    },
-    {
-        id: 9,
-        name: 'Roxie',
-        img: 'https://imprices.pexels.com/photos/1820770/pexels-photo-1820770.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500',
-        email: 'snow@gmail.com',
-        status: 'pending',
-        price: 65,
-    },
-    {
-        id: 10,
-        name: 'Roxie',
-        img: 'https://imprices.pexels.com/photos/1820770/pexels-photo-1820770.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500',
-        email: 'snow@gmail.com',
-        status: 'active',
-        price: 65,
-    },
-];
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+import Cookies from 'js-cookie';
+import moment from 'moment';
+import { confirm } from 'react-confirm-box';
 const Product = () => {
-    const [data, setData] = useState(Data);
+    const [list, setList] = useState([]);
     const cx = classNames.bind(styles);
 
+    useEffect(() => {
+        const aaa = async () => {
+            const data = await axios.get(`http://localhost:8080/tttn_be/public/api/product/list/list`, {
+                headers: {
+                    Authorization: `Bearer ${Cookies.get('accessToken')}`,
+                },
+            });
+            return data;
+        };
+        aaa()
+            .then((response) => {
+                setList(response.data.products);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }, []);
     const handleDelete = (id) => {
-        setData(data.filter((item) => item.id !== id));
+        const onClick = async () => {
+            const result = await confirm(`Bạn có chắc chắn muốn xóa sản phẩm ${id} không?`);
+            if (!result) {
+                return;
+            }
+            axios
+                .post(
+                    `http://localhost:8080/tttn_be/public/api/product/delete/${id}`,
+                    {},
+                    {
+                        headers: {
+                            Authorization: `Bearer ${Cookies.get('accessToken')}`,
+                        },
+                    },
+                )
+                .then((response) => {
+                    alert(response.data.message);
+                    if (response.data.result) {
+                        window.location.reload();
+                    }
+                })
+                .catch(function (error) {
+                    alert(error);
+                    console.log(error);
+                });
+        };
+        onClick();
     };
     const userColumns = [
         {
@@ -141,109 +68,151 @@ const Product = () => {
             headerAlign: 'center',
         },
         {
+            field: 'name',
+            headerName: 'Tên sản phẩm',
+            type: 'text',
+            width: 250,
+            headerClassName: 'super-app-theme--header',
+            headerAlign: 'center',
+            renderCell: (params) => {
+                return (
+                    <div className={cx('cellWithImg')} style={{ margin: '0 auto' }}>
+                        <img className={cx('cellImg')} src={params.row.image} alt="avatar" />
+                        {params.row.name}
+                    </div>
+                );
+            },
+        },
+        {
+            field: 'category_id_text',
+            headerName: 'Phân loại',
+            type: 'text',
+            width: 160,
+            headerClassName: 'super-app-theme--header',
+            headerAlign: 'center',
+        },
+        {
+            field: 'active',
+            headerName: 'Trạng thái',
+            width: 160,
+            headerClassName: 'super-app-theme--header',
+            headerAlign: 'center',
+            renderCell: (params) => {
+                return (
+                    <div className={`cellWithStatus ${params.row.active}`}>
+                        {params.row.active === 1 ? 'Đang hoạt động' : 'Tạm dừng'}
+                    </div>
+                );
+            },
+        },
+        /*  {
             field: 'content',
-            headerName: 'Content',
+            headerName: 'Nội dung',
             type: 'text',
             width: 270,
             headerClassName: 'super-app-theme--header',
             headerAlign: 'center',
-        },
+        }, */
 
         {
-            field: 'name',
-            headerName: 'name',
-            type: 'text',
-            width: 230,
-            headerClassName: 'super-app-theme--header',
-            headerAlign: 'center',
-        },
-        {
-            field: 'categoty_id',
-            headerName: 'Categoty',
-            type: 'text',
-            width: 270,
-            headerClassName: 'super-app-theme--header',
-            headerAlign: 'center',
-        },
-        {
             field: 'price',
-            headerName: 'Price',
+            headerName: 'Giá gốc',
             type: 'text',
 
             width: 170,
             headerClassName: 'super-app-theme--header',
             headerAlign: 'center',
+            renderCell: (params) => {
+                return (
+                    <div>
+                        {params.row.price.toLocaleString('it-IT', {
+                            style: 'currency',
+                            currency: 'VND',
+                        })}
+                    </div>
+                );
+            },
         },
         {
             field: 'price_sale',
             type: 'text',
-            headerName: 'Price Sale',
+            headerName: 'Giá Sale',
             width: 170,
             headerClassName: 'super-app-theme--header',
             headerAlign: 'center',
+            renderCell: (params) => {
+                return (
+                    <div>
+                        {params.row.price_sale?.toLocaleString('it-IT', {
+                            style: 'currency',
+                            currency: 'VND',
+                        })}
+                    </div>
+                );
+            },
         },
         {
             field: 'num',
-            headerName: 'Mount',
+            headerName: 'số lượng trong kho',
             type: 'text',
-            width: 170,
+            width: 150,
             headerClassName: 'super-app-theme--header',
             headerAlign: 'center',
         },
         {
             field: 'num_buy',
-            headerName: 'Mount Buy',
+            headerName: 'Số lượng đã bán',
             type: 'text',
 
-            width: 170,
+            width: 150,
             headerClassName: 'super-app-theme--header',
             headerAlign: 'center',
         },
+
         {
             field: 'created_at',
-            headerName: 'Created_at',
+            headerName: 'Ngày tạo',
             type: 'date',
             width: 170,
             headerClassName: 'super-app-theme--header',
             headerAlign: 'center',
+            renderCell: (params) => {
+                return (
+                    <div style={{ margin: '0 auto' }}>{moment(params.row.created_at).format('DD/MM/YYYY HH:mm')}</div>
+                );
+            },
         },
         {
-            field: 'update_at',
-            headerName: 'Update_at',
+            field: 'updated_at',
+            headerName: 'Ngày chỉnh sửa',
             type: 'date',
             width: 170,
             headerClassName: 'super-app-theme--header',
             headerAlign: 'center',
             textAlight: 'center',
-        },
-        {
-            field: 'created_by',
-            headerName: 'Created_by',
-            type: 'text',
-
-            width: 170,
-            headerClassName: 'super-app-theme--header',
-            headerAlign: 'center',
-        },
-        {
-            field: 'update_by',
-            headerName: 'Update_by',
-            type: 'text',
-
-            width: 170,
-            headerClassName: 'super-app-theme--header',
-            headerAlign: 'center',
-        },
-
-        {
-            field: 'status',
-            headerName: 'Status',
-            width: 160,
-            headerClassName: 'super-app-theme--header',
-            headerAlign: 'center',
             renderCell: (params) => {
-                return <div className={`cellWithStatus ${params.row.status}`}>{params.row.status}</div>;
+                return (
+                    <div style={{ margin: '0 auto' }}>{moment(params.row.update_at).format('DD/MM/YYYY HH:mm')}</div>
+                );
             },
+        },
+        {
+            field: 'created_by_text',
+            headerName: 'Người tạo',
+            type: 'text',
+
+            width: 170,
+            headerClassName: 'super-app-theme--header',
+            headerAlign: 'center',
+        },
+        {
+            field: 'updated_by_text',
+            headerName: 'Người chỉnh sửa',
+            type: 'text',
+
+            width: 170,
+            headerClassName: 'super-app-theme--header',
+            headerAlign: 'center',
         },
     ];
     const actionColumn = [
@@ -296,7 +265,7 @@ const Product = () => {
                                 },
                             }}
                             className={cx('datagrid')}
-                            rows={data}
+                            rows={list}
                             columns={userColumns.concat(actionColumn)}
                             priceSize={9}
                             rowsPerPageOptions={[9]}

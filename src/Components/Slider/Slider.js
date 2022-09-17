@@ -1,9 +1,24 @@
 import classNames from 'classnames/bind';
 import styles from './Slider.module.scss';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 
 function Slider() {
     const cx = classNames.bind(styles);
-
+    const [list, setList] = useState([]);
+    useEffect(() => {
+        const aaa = async () => {
+            const data = await axios.get(`http://localhost:8080/tttn_be/public/api/slider/list`);
+            return data;
+        };
+        aaa()
+            .then((response) => {
+                setList(response.data.listSlider);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }, []);
     return (
         <>
             <div
@@ -13,35 +28,19 @@ function Slider() {
                 style={{ width: '100%' }}
             >
                 <div className={cx('carousel-inner')}>
-                    <div className={cx('carousel-item active')}>
-                        <img
-                            width="1620px"
-                            height="700px"
-                            src="https://file.hstatic.net/200000312481/file/dsc05692_39baebe1403c487581b4cd9a39354736.jpg"
-                            className={cx('d-block w-100')}
-                            alt="..."
-                        />
-                    </div>
-                    <div className={cx('carousel-item')}>
-                        <img
-                            width="1620px"
-                            height="700px"
-                            object-fit="cover"
-                            src="https://i.pinimg.com/564x/01/b9/0d/01b90dcef5c3cf1e182c62a41b0db403.jpg"
-                            className={cx('d-block w-100')}
-                            alt="..."
-                        />
-                    </div>
-                    <div className={cx('carousel-item')}>
-                        <img
-                            width="1620px"
-                            height="700px"
-                            object-fit="cover"
-                            src="https://i.stack.imgur.com/4o=1baD.jpg?s=328&g"
-                            className={cx('d-block w-100')}
-                            alt="..."
-                        />
-                    </div>
+                    {list.map((slider, index) => {
+                        return (
+                            <div className={cx(index === 1 ? 'carousel-item active' : 'carousel-item')} key={slider.id}>
+                                <img
+                                    width="1620px"
+                                    height="700px"
+                                    src={slider?.image}
+                                    className={cx('d-block w-100')}
+                                    alt={slider?.name}
+                                />
+                            </div>
+                        );
+                    })}
                 </div>
                 <div>
                     <button

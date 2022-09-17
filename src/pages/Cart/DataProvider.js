@@ -1,35 +1,34 @@
 import React, { createContext, useState, useEffect } from 'react';
 
 export const DataContext = createContext();
-
 export const DataProvider = (props) => {
-    const [cart, setCart] = useState([]);
+    const [cart, setCart] = useState(localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : []);
+    const [numcart, setNumcart] = useState(0);
 
-    const addCart = (id) => {
-        /* if (check) {
-            const data = products.filter((product) => {
-                return product._id === id;
-            });
-            setCart([...cart, ...data]);
+    useEffect(() => {
+        const num = cart.reduce((total, val) => total + val.num, 0);
+        setNumcart(num);
+    }, [cart]);
+
+    const addCart = (product, num) => {
+        const prdIndex = cart.findIndex((val) => val.id === product.id);
+        if (prdIndex === -1) {
+            setCart([...cart, { ...product, cartNum: num }]);
         } else {
-            alert('The product has been added to cart.');
-        } */
-        alert('The product has been added to cart.');
+            const newCart = [...cart];
+            newCart[prdIndex].cartNum += num;
+            setCart(newCart);
+        }
+        alert('Sản phẩm đã được thêm vào giỏ hàng');
     };
 
     useEffect(() => {
-        const dataCart = JSON.parse(localStorage.getItem('dataCart'));
-        if (dataCart) setCart(dataCart);
-    }, []);
-
-    useEffect(() => {
-        localStorage.setItem('dataCart', JSON.stringify(cart));
+        localStorage.setItem('cart', JSON.stringify(cart));
     }, [cart]);
 
     const value = {
-        //collects: [collects, setCollects],
-        // products: [products, setProducts],
         cart: [cart, setCart],
+        numcart: [numcart, setNumcart],
         addCart: addCart,
     };
 
