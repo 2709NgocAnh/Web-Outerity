@@ -1,11 +1,13 @@
 import classNames from 'classnames/bind';
 import styles from '../Contact.module.scss';
+import axios from 'axios';
+import Cookies from 'js-cookie';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 // import { faStarAndCrescent } from '@fortawesome/free-solid-svg-icons';
 import TabTitle from '~/Components/config/TabTitle';
 import { NavLink } from 'react-router-dom';
 import config from '~/Components/config';
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect, useState, useContext } from 'react';
 import './StarRate.scss';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 
@@ -17,28 +19,64 @@ function StarRate() {
     TabTitle('Star Rate');
     const userRef = useRef();
     const cx = classNames.bind(styles);
-    const [email, setEmail] = useState('');
-    const [text, setText] = useState('');
-
+    const [email, setEmail] = useState();
+    const [content, setContent] = useState('');
     const [err, setErr] = useState('');
     const [focused, setFocused] = useState(false);
-    const handleFocus = (e) => {
-        setFocused(true);
-    };
+    const [auth, setAuth] = useState(true);
+    useEffect(() => {
+        axios
+            .get(`http://localhost:8080/tttn_be/public/api/user/profile`, {
+                headers: {
+                    Authorization: `Bearer ${Cookies.get('accessToken')}`,
+                },
+            })
+            .then((response) => {
+                setAuth(response.data.result);
+                console.log(auth);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }, []);
+    useEffect(() => {
+        if (!auth) {
+            window.location.href = 'http://localhost:3000/register';
+        }
+    }, [auth]);
+    useEffect(() => {
+        const aaa = async () => {
+            const data = await axios.get(`http://localhost:8080/tttn_be/public/api/user/profile`, {
+                headers: {
+                    Authorization: `Bearer ${Cookies.get('accessToken')}`,
+                },
+            });
+            return data;
+        };
+        aaa()
+            .then((response) => {
+                setEmail(response.data.user.email);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }, []);
     useEffect(() => {
         userRef.current.focus();
     }, []);
     useEffect(() => {
-        if (text === '' && focused) {
+        if (content === '' && focused) {
             setErr('Hãy nhập ý kiến của bạn');
         } else {
             setErr('');
         }
-    }, [text, focused]);
+    }, [content, focused]);
     const [currentValue, setCurrentValue] = useState(0);
     const [hoverValue, setHoverValue] = useState(undefined);
     const stars = Array(5).fill(0);
-
+    const handleFocus = (e) => {
+        setFocused(true);
+    };
     const handleClick = (value) => {
         setCurrentValue(value);
     };
@@ -50,7 +88,32 @@ function StarRate() {
     const handleMouseLeave = () => {
         setHoverValue(undefined);
     };
-
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        axios
+            .post(
+                'http://localhost:8080/tttn_be/public/api/feedback/add',
+                { email, content },
+                {
+                    headers: {
+                        Authorization: `Bearer ${Cookies.get('accessToken')}`,
+                    },
+                },
+            )
+            .then(function (response) {
+                if (response.data.result) {
+                    alert(response.data.message);
+                    setEmail('');
+                    setContent('');
+                } else {
+                    alert(response.data.error);
+                }
+            })
+            .catch(function (error) {
+                alert(error.response.data.message);
+                console.log(error);
+            });
+    };
     return (
         <>
             <div className={cx('wrap')}>
@@ -111,37 +174,38 @@ function StarRate() {
                                     );
                                 })}
                             </div>
-                            <input
-                                placeholder="Email của bạn"
-                                className={cx('wrapper-input ')}
-                                type="email"
-                                // id="userEmail"
-                                ref={userRef}
-                                autoComplete="off"
-                                onChange={(e) => setEmail(e.target.value)}
-                                value={email}
-                                pattern="[a-z0-9]+@[a-z]+.[a-z]{2,3}"
-                                onBlur={handleFocus}
-                                required="true"
-                                focused={focused.toString()}
-                            />
-                            <span className={cx('err')}>Vui lòng nhập lại mail</span>
-                            <textarea
-                                // rows="10"
-                                // cols="70"
-                                placeholder="Ý kiến của bạn"
-                                className="wrapper-text"
-                                pattern="\S+.*"
-                                onBlur={handleFocus}
-                                required="true"
-                                onChange={(event) => {
-                                    setText(event.target.value);
-                                    setFocused(true);
-                                }}
-                            />
+                            <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column' }}>
+                                <input
+                                    placeholder="Email của bạn"
+                                    className={cx('wrapper-input ')}
+                                    type="email"
+                                    // id="userEmail"
+                                    ref={userRef}
+                                    autoComplete="off"
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    value={email}
+                                    pattern="[a-z0-9]+@[a-z]+.[a-z]{2,3}"
+                                    onBlur={handleFocus}
+                                    required="true"
+                                    focused={focused.toString()}
+                                />
+                                <span className={cx('err')}>Vui lòng nhập lại mail</span>
+                                <textarea
+                                    placeholder="Ý kiến của bạn"
+                                    className="wrapper-text"
+                                    pattern="\S+.*"
+                                    onBlur={handleFocus}
+                                    value={content}
+                                    required="true"
+                                    onChange={(event) => {
+                                        setContent(event.target.value);
+                                        setFocused(true);
+                                    }}
+                                />
 
-                            <span className="wrapper-text-err">{err}</span>
-                            <button className="wrapper-btn">Submit</button>
+                                <span className="wrapper-text-err">{err}</span>
+                                <button className="wrapper-btn">Submit</button>
+                            </form>
                         </div>
                     </div>
                 </div>

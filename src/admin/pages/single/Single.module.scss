@@ -15,7 +15,7 @@
                 box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
                 padding: 40px;
                 position: relative;
-                height: 100vh;
+                /*  height: 100vh; */
 
                 .editButton {
                     position: absolute;
@@ -42,6 +42,32 @@
                     }
 
                     .details {
+                        .imgContainer {
+                            width: 400px;
+                            width: 100%;
+                            margin: 20px;
+                            height: 350px;
+                            background-position: center;
+                            background-size: cover;
+                            background-repeat: no-repeat;
+                        }
+                        .imgContainer:hover {
+                            background-size: 150%;
+                            border: 1px solid #ddd;
+                            cursor: zoom-in;
+                        }
+                        .thumb {
+                            display: flex;
+                            cursor: pointer;
+                            img {
+                                width: 50px;
+                                height: 45px;
+                                display: block;
+                                object-fit: cover;
+                                margin: 20px;
+                                overflow: hidden;
+                            }
+                        }
                         .itemTitle {
                             margin-bottom: 10px;
                             color: #555;
@@ -50,7 +76,33 @@
                         .detailItem {
                             margin-bottom: 10px;
                             font-size: 14px;
-
+                            .sidebar {
+                                position: relative;
+                                height: 100%;
+                                color: #717171;
+                                margin-right: 150px;
+                                padding-left: 40px;
+                                font-size: 1.4rem;
+                                border-left: 1px solid rgba(153, 153, 153, 0.203);
+                                height: 100%;
+                                width: 150px;
+                                .sidebar-content {
+                                    width: 500px;
+                                    justify-content: space-between;
+                                }
+                                ::after {
+                                    content: '';
+                                    display: block;
+                                    width: 200%;
+                                    position: absolute;
+                                    top: 0;
+                                    /* left: -100%; */
+                                    bottom: 0;
+                                    background: #fafafa;
+                                    z-index: -1;
+                                    box-shadow: 0 -1px 0 #e1e1e1 inset;
+                                }
+                            }
                             .itemKey {
                                 font-weight: bold;
                                 color: gray;

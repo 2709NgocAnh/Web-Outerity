@@ -1,4 +1,4 @@
-import styles from './Users.module.scss';
+/* import styles from './Users.module.scss';
 import classNames from 'classnames/bind';
 const cx = classNames.bind(styles);
 //temporary data
@@ -94,4 +94,4 @@ export const userRows = [
         status: 'user',
         age: 65,
     },
-];
+]; */

@@ -1,5 +1,5 @@
 import { Fragment } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route ,Navigate} from 'react-router-dom';
 import { publicRoutes } from '~/routes';
 import DefaultLayout from '~/Components/Layout/DefaultLayout';
 import { DataProvider } from './pages/Cart/DataProvider';
@@ -22,6 +22,8 @@ function App() {
                                 }
 
                                 return (
+                                    <>
+                                    <Route path="/" element={<Navigate replace to="/list" />} />
                                     <Route
                                         key={index}
                                         path={route.path}
@@ -31,6 +33,7 @@ function App() {
                                             </Layout>
                                         }
                                     />
+                                    </>
                                 );
                             })}
                         </Routes>

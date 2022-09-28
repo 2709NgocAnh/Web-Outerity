@@ -1,29 +1,25 @@
-import styles from './Category.module.scss';
+import styles from './feedback.module.scss';
 import classNames from 'classnames/bind';
 import Box from '@mui/material/Box';
 import { DataGrid } from '@mui/x-data-grid';
 import { Link } from 'react-router-dom';
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import moment from 'moment';
 import { confirm } from 'react-confirm-box';
-const Category = () => {
+const Feedback = () => {
     const cx = classNames.bind(styles);
     const [data, setData] = useState([]);
-
     useEffect(() => {
-        const aaa = async () => {
-            const data = await axios.get(`http://localhost:8080/tttn_be/public/api/category/list`, {
+        axios
+            .get(`http://localhost:8080/tttn_be/public/api/feedback/list`, {
                 headers: {
                     Authorization: `Bearer ${Cookies.get('accessToken')}`,
                 },
-            });
-            return data;
-        };
-        aaa()
+            })
             .then((response) => {
-                setData(response.data.category);
+                setData(response.data.listFeedback);
             })
             .catch(function (error) {
                 console.log(error);
@@ -32,13 +28,13 @@ const Category = () => {
 
     const handleDelete = (id) => {
         const onClick = async () => {
-            const result = await confirm(`Bạn có chắc chắn muốn xóa danh mục ${id} không?`);
+            const result = await confirm(`Bạn có chắc chắn muốn xóa phản hồi ${id} không?`);
             if (!result) {
                 return;
             }
             axios
                 .post(
-                    `http://localhost:8080/tttn_be/public/api/category/delete/${id}`,
+                    `http://localhost:8080/tttn_be/public/api/feedback/delete/${id}`,
                     {},
                     {
                         headers: {
@@ -61,38 +57,29 @@ const Category = () => {
     const userColumns = [
         {
             field: 'id',
-            headerName: 'ID',
-            width: 70,
+            headerName: 'Id ',
+            width: 60,
+            headerClassName: 'super-app-theme--header',
+            headerAlign: 'center',
+        },
+        {
+            field: 'email',
+            headerName: 'Email',
+            width: 250,
+            headerClassName: 'super-app-theme--header',
+            headerAlign: 'center',
+        },
+        {
+            field: 'content',
+            headerName: 'Nội dung',
+            width: 460,
             headerClassName: 'super-app-theme--header',
             headerAlign: 'center',
         },
 
         {
-            field: 'name',
-            headerName: 'Tên danh mục',
-            width: 200,
-            headerClassName: 'super-app-theme--header',
-            headerAlign: 'center',
-        },
-        {
-            field: 'active',
-            headerName: 'Trạng thái',
-            width: 170,
-            headerClassName: 'super-app-theme--header',
-            headerAlign: 'center',
-            renderCell: (params) => {
-                return (
-                    <div className={cx('status')}>
-                        <span className={cx(`${params.row.active}`)}>
-                            {params.row.active === 1 ? 'Đang hoạt động' : 'Tạm dừng'}
-                        </span>
-                    </div>
-                );
-            },
-        },
-        {
             field: 'created_at',
-            headerName: 'Ngày tạo',
+            headerName: 'Ngày gửi',
             width: 170,
             headerClassName: 'super-app-theme--header',
             headerAlign: 'center',
@@ -102,7 +89,7 @@ const Category = () => {
                 );
             },
         },
-        {
+        /* {
             field: 'updated_at',
             headerName: 'Ngày chỉnh sửa',
             width: 170,
@@ -113,34 +100,20 @@ const Category = () => {
                     <div style={{ margin: '0 auto' }}>{moment(params.row.updated_at).format('DD/MM/YYYY HH:mm')}</div>
                 );
             },
-        },
-        {
-            field: 'created_by_text',
-            headerName: 'Người tạo',
-            width: 250,
-            headerClassName: 'super-app-theme--header',
-            headerAlign: 'center',
-        },
-        {
-            field: 'updated_by_text',
-            headerName: 'Người chỉnh sửa',
-            width: 250,
-            headerClassName: 'super-app-theme--header',
-            headerAlign: 'center',
-        },
+        }, */
     ];
     const actionColumn = [
         {
             field: 'action',
-            headerName: 'Công cụ',
+            headerName: 'Action',
             width: 200,
             headerClassName: 'super-app-theme--header',
             headerAlign: 'center',
             renderCell: (params) => {
                 return (
                     <div className={cx('cellAction')}>
-                        <Link to={`EditCategory/${params.row.id}`} style={{ textDecoration: 'none' }}>
-                            <div className={cx('viewButton')}>Edit</div>
+                        <Link to={`/Feedbacks/${params.row.id}`} style={{ textDecoration: 'none' }}>
+                            <div className={cx('viewButton')}>View</div>
                         </Link>
                         <div className={cx('deleteButton')} onClick={() => handleDelete(params.row.id)}>
                             Delete
@@ -155,10 +128,10 @@ const Category = () => {
             <div className={cx('listContainer')}>
                 <div className={cx('datatable')}>
                     <div className={cx('datatableTitle')}>
-                        Danh mục
-                        <Link to="/categorys/new-category" className={cx('link')}>
+                        Danh sách phản hồi
+                        {/*  <Link to="/users/new" className={cx('link')}>
                             Thêm mới
-                        </Link>
+                        </Link> */}
                     </div>
                     <Box
                         sx={{
@@ -181,8 +154,8 @@ const Category = () => {
                             className={cx('datagrid')}
                             rows={data}
                             columns={userColumns.concat(actionColumn)}
-                            priceSize={9}
-                            rowsPerPageOptions={[9]}
+                            ppriceSize={9}
+                            rowsPerPpriceOptions={[9]}
                             checkboxSelection
                         />
                     </Box>
@@ -192,4 +165,4 @@ const Category = () => {
     );
 };
 
-export default Category;
+export default Feedback;

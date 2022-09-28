@@ -32,9 +32,9 @@ export default function CollectTop() {
                                         <div class="page_menu_title title_block">
                                             <NavLink
                                                 className={(nav) => ({ active: nav.isActive })}
-                                                to={config.routes.collect}
+                                                to={config.routes.list}
                                             >
-                                                <h2>Danh mục </h2>
+                                                <h2>Tất cả các sản phẩm </h2>
                                             </NavLink>
                                         </div>
                                         <div class="layered layered-category">

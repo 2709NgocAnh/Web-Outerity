@@ -3,249 +3,120 @@ import classNames from 'classnames/bind';
 import Box from '@mui/material/Box';
 import { DataGrid } from '@mui/x-data-grid';
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
-
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+import Cookies from 'js-cookie';
+import moment from 'moment';
 const Order = () => {
     const cx = classNames.bind(styles);
-    const [data, setData] = useState([
-        {
-            id: 1,
-            ordercode: 1,
-            user_id: 1,
+    const [data, setData] = useState([]);
+    useEffect(() => {
+        axios
+            .get(`http://localhost:8080/tttn_be/public/api/order/list`, {
+                headers: {
+                    Authorization: `Bearer ${Cookies.get('accessToken')}`,
+                },
+            })
+            .then((response) => {
+                setData(response.data.listOrder);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }, []);
 
-            fullname: 'Snow',
-            img: 'https://imprices.pexels.com/photos/1820770/pexels-photo-1820770.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500',
-            status: 'active',
-            email: '1snow@gmail.commmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm',
-            categoty_id: 123,
-            price_product: 35,
-            price_sale: 24,
-            num: 12,
-            num_buy: 10,
-            created_at: 24 / 12 / 2022,
-            updated_at: 25 / 12 / 2022,
-            created_by: 'ngoc anh',
-            updated_by: 'ngoc anh',
-        },
-        {
-            id: 2,
-            name: 'Jamie Lannister',
-            img: 'https://imprices.pexels.com/photos/1820770/pexels-photo-1820770.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500',
-            content: '2snow@gmail.com',
-            status: 'passive',
-            price: 42,
-            price_sale: 24,
-            num: 12,
-            num_buy: 10,
-            created_at: 24 / 12 / 2022,
-            updated_at: 25 / 12 / 2022,
-            created_by: 'ngoc anh',
-            updated_by: 'ngoc anh',
-        },
-        {
-            id: 3,
-            name: 'Lannister',
-            img: 'https://imprices.pexels.com/photos/1820770/pexels-photo-1820770.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500',
-            content: '3snow@gmail.com',
-            status: 'pending',
-            price: 45,
-            price_sale: 24,
-            num: 12,
-            num_buy: 10,
-            created_at: 24 / 12 / 2022,
-            updated_at: 25 / 12 / 2022,
-            created_by: 'ngoc anh',
-            updated_by: 'ngoc anh',
-        },
-        {
-            id: 4,
-            name: 'Stark',
-            img: 'https://imprices.pexels.com/photos/1820770/pexels-photo-1820770.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500',
-            content: '4snow@gmail.com',
-            status: 'active',
-            price: 16,
-            price_sale: 24,
-            num: 12,
-            num_buy: 10,
-            created_at: 24 / 12 / 2022,
-            updated_at: 25 / 12 / 2022,
-            created_by: 'ngoc anh',
-            updated_by: 'ngoc anh',
-        },
-        {
-            id: 5,
-            name: 'Targaryen',
-            img: 'https://imprices.pexels.com/photos/1820770/pexels-photo-1820770.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500',
-            content: '5snow@gmail.com',
-            status: 'passive',
-            price: 22,
-            price_sale: 24,
-            num: 12,
-            num_buy: 10,
-            created_at: 24 / 12 / 2022,
-            updated_at: 25 / 12 / 2022,
-            created_by: 'ngoc anh',
-            updated_by: 'ngoc anh',
-        },
-        {
-            id: 6,
-            name: 'Melisandre',
-            img: 'https://imprices.pexels.com/photos/1820770/pexels-photo-1820770.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500',
-            content: '6snow@gmail.com',
-            status: 'active',
-            price: 15,
-        },
-        {
-            id: 7,
-            name: 'Clifford',
-            img: 'https://imprices.pexels.com/photos/1820770/pexels-photo-1820770.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500',
-            content: '7snow@gmail.com',
-            status: 'passive',
-            price: 44,
-        },
-        {
-            id: 8,
-            name: 'Frances',
-            img: 'https://imprices.pexels.com/photos/1820770/pexels-photo-1820770.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500',
-            content: '8snow@gmail.com',
-            status: 'active',
-            price: 36,
-        },
-        {
-            id: 9,
-            name: 'Roxie',
-            img: 'https://imprices.pexels.com/photos/1820770/pexels-photo-1820770.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500',
-            content: 'snow@gmail.com',
-            status: 'pending',
-            price: 65,
-        },
-        {
-            id: 10,
-            name: 'Roxie',
-            img: 'https://imprices.pexels.com/photos/1820770/pexels-photo-1820770.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500',
-            content: 'snow@gmail.com',
-            status: 'active',
-            price: 65,
-        },
-    ]);
-
-    const handleDelete = (id) => {
-        setData(data.filter((item) => item.id !== id));
-    };
+    /* const handleDelete = (id) => {
+        //setData(data.filter((item) => item.id !== id));
+    }; */
     const userColumns = [
         {
-            field: 'id',
-            headerName: 'ID',
-            width: 70,
+            field: 'ordercode',
+            headerName: 'Mã đơn hàng',
+            width: 150,
             headerClassName: 'super-app-theme--header',
             headerAlign: 'center',
         },
-        // {
-        //     field: 'ordercode',
-        //     headerName: 'Ordercode',
-        //     width: 70,
-        //     headerClassName: 'super-app-theme--header',
-        //     headerAlign: 'center',
-        // },
-        // {
-        //     field: 'fullname',
-        //     headerName: 'Name',
-        //     width: 170,
-        //     headerClassName: 'super-app-theme--header',
-        //     headerAlign: 'center',
-        // },
         {
-            field: 'user',
-            headerName: 'Product',
-            width: 230,
-            headerClassName: 'super-app-theme--header',
-            headerAlign: 'center',
-            renderCell: (params) => {
-                return (
-                    <div className={cx('cellWithImg')}>
-                        <img className={cx('cellImg')} src={params.row.img} alt="avatar" />
-                        {params.row.name}
-                    </div>
-                );
-            },
-        },
-        {
-            field: 'categogy_id',
-            headerName: 'Categogy',
-            width: 270,
+            field: 'fullname',
+            headerName: 'Tên khách hàng',
+            width: 250,
             headerClassName: 'super-app-theme--header',
             headerAlign: 'center',
         },
         {
             field: 'email',
             headerName: 'Email',
-            width: 370,
-            headerClassName: 'super-app-theme--header',
-            headerAlign: 'center',
-        },
-        {
-            field: 'phone',
-            headerName: 'Phone',
-            width: 170,
-            headerClassName: 'super-app-theme--header',
-            headerAlign: 'center',
-        },
-        {
-            field: 'price_product',
-            headerName: 'Price',
-            width: 170,
-            headerClassName: 'super-app-theme--header',
-            headerAlign: 'center',
-        },
-        {
-            field: 'discount_code',
-            headerName: 'Discount_code',
-            width: 170,
-            headerClassName: 'super-app-theme--header',
-            headerAlign: 'center',
-        },
-        {
-            field: 'price_ship',
-            headerName: 'Price Ship',
-            width: 170,
-            headerClassName: 'super-app-theme--header',
-            headerAlign: 'center',
-        },
-        {
-            field: 'price_all',
-            headerName: 'Price All',
-            width: 170,
+            width: 230,
             headerClassName: 'super-app-theme--header',
             headerAlign: 'center',
         },
 
         {
-            field: 'address',
-            headerName: 'Address',
-            width: 170,
+            field: 'phone',
+            headerName: 'Số điện thoại',
+            width: 100,
             headerClassName: 'super-app-theme--header',
             headerAlign: 'center',
         },
         {
-            field: 'note',
-            headerName: 'Note',
+            field: 'address',
+            headerName: 'Địa chỉ giao hàng',
+            width: 250,
+            headerClassName: 'super-app-theme--header',
+            headerAlign: 'center',
+        },
+
+        {
+            field: 'price_all',
+            headerName: 'Tổng tiền',
             width: 170,
             headerClassName: 'super-app-theme--header',
             headerAlign: 'center',
+            renderCell: (params) => {
+                return (
+                    <div style={{ margin: '0 auto' }}>
+                        {' '}
+                        {params.row.price_all.toLocaleString('it-IT', {
+                            style: 'currency',
+                            currency: 'VND',
+                        })}
+                    </div>
+                );
+            },
+        },
+        {
+            field: 'orderstatus_id_text',
+            headerName: 'Trạng thái đơn hàng ',
+            width: 150,
+            headerClassName: 'super-app-theme--header',
+            headerAlign: 'center',
+            renderCell: (params) => {
+                return <div style={{ margin: '0 auto', color: '#389b31' }}>{params.row.orderstatus_id_text}</div>;
+            },
         },
         {
             field: 'created_at',
-            headerName: 'Created_at',
+            headerName: 'Ngày đặt hàng',
             width: 170,
             headerClassName: 'super-app-theme--header',
             headerAlign: 'center',
+            renderCell: (params) => {
+                return (
+                    <div style={{ margin: '0 auto' }}>{moment(params.row.created_at).format('DD/MM/YYYY HH:mm')}</div>
+                );
+            },
         },
         {
-            field: 'updateg_at',
-            headerName: 'Updateg_at',
+            field: 'updated_at',
+            headerName: 'Ngày chỉnh sửa',
             width: 170,
             headerClassName: 'super-app-theme--header',
             headerAlign: 'center',
+            renderCell: (params) => {
+                return (
+                    <div style={{ margin: '0 auto' }}>{moment(params.row.updated_at).format('DD/MM/YYYY HH:mm')}</div>
+                );
+            },
         },
     ];
     const actionColumn = [
@@ -258,12 +129,12 @@ const Order = () => {
             renderCell: (params) => {
                 return (
                     <div className={cx('cellAction')}>
-                        <Link to="/users/test" style={{ textDecoration: 'none' }}>
+                        <Link to={`/Orders/${params.row.id}`} style={{ textDecoration: 'none' }}>
                             <div className={cx('viewButton')}>View</div>
                         </Link>
-                        <div className={cx('deleteButton')} onClick={() => handleDelete(params.row.id)}>
+                        {/* <div className={cx('deleteButton')} onClick={() => handleDelete(params.row.id)}>
                             Delete
-                        </div>
+                        </div> */}
                     </div>
                 );
             },
@@ -274,10 +145,10 @@ const Order = () => {
             <div className={cx('listContainer')}>
                 <div className={cx('datatable')}>
                     <div className={cx('datatableTitle')}>
-                        Danh sách hóa đơn
-                        <Link to="/users/new" className={cx('link')}>
+                        Danh sách đơn hàng
+                        {/*  <Link to="/users/new" className={cx('link')}>
                             Thêm mới
-                        </Link>
+                        </Link> */}
                     </div>
                     <Box
                         sx={{
